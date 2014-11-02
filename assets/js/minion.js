@@ -159,7 +159,14 @@ function loadSettings() {
  * @returns {bool}
  */
 function showSection(section) {
-  
+	if (section === "") {
+		console.warn("[WARNING] Empty argument given for showSection.");
+		return false;
+	}
+	console.debug("[DEBUG] Switching to section '" + section + "'.");
+	$(".section").addClass("hidden");
+	$("#" + section).removeClass("hidden");
+	return true;
 }
 
 /*!
