@@ -123,15 +123,6 @@ function responseHandler(request, response) {
 }
 
 /*!
- * Obtain the version of the PT client out of a HTTP response.
- *
- * @returns {string}
- */
-function popcorntimeVersion(response, warnUser) {
-  
-}
-
-/*!
  * Set settings from given arguments.
  *
  * @returns {void}
