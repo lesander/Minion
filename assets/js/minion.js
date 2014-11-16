@@ -5,7 +5,6 @@
  * Released under the GNU GPL V3 License
  * http://git.io/minion
  */
-
 /*! Make sure that we've got jQuery included. */
 if (typeof jQuery === "undefined") {
 	throw new Error("Popcorn Time Remote requires jQuery.");
@@ -19,24 +18,24 @@ if (typeof jQuery === "undefined") {
 
 /*! Set App variables. */
 var App = {
-  "version": "0.1.0.pre",
-  "settings": {
-    "connection": {
-      "ip": "",
-      "port": "",
-      "username": "",
-      "password": ""
-    },
-    "interval": 1000,
+	"version": "0.1.0.pre",
+	"settings": {
+		"connection": {
+			"ip": "",
+			"port": "",
+			"username": "",
+			"password": ""
+		},
+		"interval": 1000,
 		"debug": {
 			"doInterval": true,
 			"doConnectDump": false,
 		},
 		"zipExtractor": "http://178.62.212.184/zip.php"
-  },
-  "connected": false,
-  "view": "",
-  "tab": {
+	},
+	"connected": false,
+	"view": "",
+	"tab": {
 		"current": "",
 		"old": ""
 	},
@@ -50,12 +49,12 @@ var App = {
 	//"pagecount": 1, // 0 or 1?
 	//"nextpage": "",
 	"page": 1,
-  "clientVersion": "",
-  "supportedversions": {
-    0: "0.3.5",
-    1: "733.0.11.0.0",
+	"clientVersion": "",
+	"supportedversions": {
+		0: "0.3.5",
+		1: "733.0.11.0.0",
 		2: "0.3.5-2"
-  }
+	}
 };
 
 /***************!
@@ -80,8 +79,8 @@ $(".version").text("Version " + App.version);
  * @returns {bool}
  */
 function popcorntimeConnect(address, port, username, password) {
-  var request = {
-		"id": Math.floor( Math.random() * 100000 ),
+	var request = {
+		"id": Math.floor(Math.random() * 100000),
 		"jsonrpc": "2.0",
 		"caller": "PTR-Minion-" + window.App.version,
 		"callerLocation": window.location.href,
@@ -145,7 +144,7 @@ function popcorntimeConnect(address, port, username, password) {
  * @returns {false/null}
  */
 function popcorntimeAPI(method, parameters) {
-  if (!window.App.connected) {
+	if (!window.App.connected) {
 		console.warn("[WARNING] Can't call popcorntime API: not connected.");
 		return false;
 	}
@@ -153,7 +152,7 @@ function popcorntimeAPI(method, parameters) {
 		parameters = [];
 	}
 	var request = {
-		"id": Math.floor( Math.random() * 100000 ),
+		"id": Math.floor(Math.random() * 100000),
 		"jsonrpc": "2.0",
 		"caller": "PTR-Minion-" + window.App.version,
 		"callerLocation": window.location.href,
@@ -202,18 +201,18 @@ function responseHandler(request, response) {
 		case 'getcurrenttab':
 			//console.log(response.result.tab + ' vs ' + window.App.tab.current)
 			//if (response.result.tab !== window.App.tab.current) {
-				setTab(response.result.tab);
-				window.App.tab.old = window.App.tab.current;
-				window.App.tab.current = response.result.tab;
+			setTab(response.result.tab);
+			window.App.tab.old = window.App.tab.current;
+			window.App.tab.current = response.result.tab;
 			//}
 			break;
 		case 'getplaying':
-			
+
 			break;
 		case 'getselection':
 			window.App.subtitles = {};
 			if (window.App.view === "player") {
-				
+
 			}
 			else if (window.App.view === "movie-detail") {
 				$(".movie-detail-poster").attr("src", response.result.image);
@@ -227,7 +226,7 @@ function responseHandler(request, response) {
 				$(".movie-detail-genre").html("" + response.result.genre + "");
 				$(".movie-detail-runtime").html("" + response.result.runtime + " min");
 				$(".movie-detail-imdb").html('<a href="http://imdb.com/title/' + response.result.imdb_id + '/" target="_blank"><img src="assets/img/imdb.png"></a>');
-				
+
 				if (response.result.bookmarked) {
 					$(".btn-movie-detail-favourite").find("i").toggleClass("none red"); // !
 					$(".btn-movie-detail-favourite").addClass("added");
@@ -240,9 +239,9 @@ function responseHandler(request, response) {
 				// store subtitle zips in array.
 				window.App.subtitles = response.result.subtitle;
 				// check for state of player. -> ?
-				
+
 				$(".btn-movie-detail-quality").text(response.result.quality);
-				
+
 			}
 			else if (window.App.view === "shows-container-contain") {
 				// ...
@@ -261,7 +260,7 @@ function responseHandler(request, response) {
 			else {
 				$(".loading-list").addClass("hidden");
 			}
-			if (response.result.page === window.App.currentpage) { 
+			if (response.result.page === window.App.currentpage) {
 				$("#main-browser .list").children().remove();
 			}
 			if (response.result.type === "movie") {
@@ -289,24 +288,24 @@ function responseHandler(request, response) {
 			$("#main-browser .list").append('<li class="item"><a class="btn-more btn btn-primary btn-minion">Load More..</a></li>');
 			window.App.page = response.result.page;
 			//$.each(response.result.list, function(key, value) {
-				//response.result.list.image
-				//response.result.list.title
-				//response.result.list.rating
-				//response.result.list.year
-				//response.result.list.watched -> update on click of watch
-				//response.result.list.bookmarked -> update on click of bookmark
-				/*
-				<li class="item>
-					<div class="item-cover" style="background-image: url(' + value.image + ');">
-						<div class="item-overlay"></div>
-					</div>
-					<div class="item-info">
-						<div class="item-title">' + value.title + '</div>
-						<span class="item-year pull-left">' + value.year + '</span>
-						<span class="item-rating pull-right">' + value.rating + '/10</span>
-					</div>
-				</li>
-				*/
+			//response.result.list.image
+			//response.result.list.title
+			//response.result.list.rating
+			//response.result.list.year
+			//response.result.list.watched -> update on click of watch
+			//response.result.list.bookmarked -> update on click of bookmark
+			/*
+			<li class="item>
+				<div class="item-cover" style="background-image: url(' + value.image + ');">
+					<div class="item-overlay"></div>
+				</div>
+				<div class="item-info">
+					<div class="item-title">' + value.title + '</div>
+					<span class="item-year pull-left">' + value.year + '</span>
+					<span class="item-rating pull-right">' + value.rating + '/10</span>
+				</div>
+			</li>
+			*/
 			//});
 			break;
 		case 'getstreamurl':
@@ -320,10 +319,10 @@ function responseHandler(request, response) {
 			}
 			break;
 		case 'toggleplaying':
-			
+
 			break;
 		case 'volume':
-			
+
 			break;
 		case 'getsubtitles':
 			if (window.App.view === "movie-detail") {
@@ -348,13 +347,13 @@ function responseHandler(request, response) {
 			}
 			break;
 		case 'getgenres':
-			
+
 			break;
 		case 'getsorters':
-			
+
 			break;
 		case 'clearsearch':
-			
+
 			break;
 		case 'togglefavourite':
 			if (window.App.view === "movie-detail") {
@@ -438,7 +437,7 @@ function viewstackHandler(response) {
 		// Remove backdrop background if view=movie-detail
 		// Clear list
 		$("#main-browser .list").children().remove();
-		
+
 		switch (currentview) {
 			case 'main-browser':
 				showSection("main-browser");
@@ -446,7 +445,7 @@ function viewstackHandler(response) {
 				// herp
 				$(".list").on("click", ".btn-more", function() {
 					$(this).hide();
-					popcorntimeAPI("getcurrentlist", [ window.App.page + 1 ]);
+					popcorntimeAPI("getcurrentlist", [window.App.page + 1]);
 				});
 				//popcorntimeAPI("getgenres");
 				//popcorntimeAPI("getsorters");
@@ -467,7 +466,7 @@ function viewstackHandler(response) {
 			case 'player':
 				popcorntimeAPI("getplaying");
 				popcorntimeAPI("getsubtitles");
-				console.debug("[DEBUG] App.playHere = "+window.App.playHere+".");
+				console.debug("[DEBUG] App.playHere = " + window.App.playHere + ".");
 				if (window.App.playHere) {
 					popcorntimeAPI("getstreamurl");
 					popcorntimeAPI("toggleplaying");
@@ -499,7 +498,7 @@ function viewstackHandler(response) {
 	}
 	else if (currentview === "main-browser") {
 		// For the sake of the active tabs..
-		if ( window.App.tab.current === "movies" || window.App.tab.current === "shows" || window.App.tab.current === "anime" ) {
+		if (window.App.tab.current === "movies" || window.App.tab.current === "shows" || window.App.tab.current === "anime") {
 			$(".subsection-search-filter").removeClass("hidden");
 		}
 		else {
@@ -544,7 +543,7 @@ function setSettings(address, port, username, password) {
  * @returns {void}
  */
 function loadSettings() {
-  window.App.settings.connection.ip = window.localStorage.getItem("ip");
+	window.App.settings.connection.ip = window.localStorage.getItem("ip");
 	window.App.settings.connection.port = window.localStorage.getItem("port");
 	window.App.settings.connection.username = window.localStorage.getItem("username");
 	window.App.settings.connection.password = window.localStorage.getItem("password");
@@ -579,12 +578,12 @@ function showSection(section) {
  * @returns {bool}
  */
 function hasRequiredStorage() {
-  if ( localStorageExists("ip") && localStorageExists("port") && localStorageExists("username") && localStorageExists("password") ) {
-    return true;
-  }
-  else {
-    return false;
-  }
+	if (localStorageExists("ip") && localStorageExists("port") && localStorageExists("username") && localStorageExists("password")) {
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 /*!
@@ -664,7 +663,7 @@ function registerListeners() {
 	});
 	// Save settings handler.
 	$(".btn-save").on("click", function() {
-		setSettings( $(".settings-address").val(), $(".settings-port").val(), $(".settings-username").val(), $(".settings-password").val() );
+		setSettings($(".settings-address").val(), $(".settings-port").val(), $(".settings-username").val(), $(".settings-password").val());
 		loadSettings();
 		alert("Settings saved!");
 		location.reload();
@@ -720,11 +719,11 @@ function setTab(tab) {
  * @private
  */
 function localStorageExists(key) {
-  if (key === null) {
-    console.warn("[WARNING] localStorageExists got empty 'key' parameter.");
-    return false;
-  }
-  else if (window.localStorage.getItem(key) !== null) {
+	if (key === null) {
+		console.warn("[WARNING] localStorageExists got empty 'key' parameter.");
+		return false;
+	}
+	else if (window.localStorage.getItem(key) !== null) {
 		return true;
 	}
 	else {
@@ -777,22 +776,22 @@ $(document).ready(function() {
 	console.log(" Released under the GNU GPL V3 License.");
 	console.log(" http://git.io/minion");
 	console.log("");
-  console.info("[INFO] Document is ready, starting Minion session.");
-  console.info("[INFO] Minion version " + App.version + ".");
+	console.info("[INFO] Document is ready, starting Minion session.");
+	console.info("[INFO] Minion version " + App.version + ".");
 	$(".nav-title").html("Minion v" + App.version);
 	if (App.debug) {
 		console.info("[INFO] Extra debugging is enabled. Brace yourself for tons of debug messages!");
 		console.log("[INFO] Debugging messages can be altered during the session by changing settings in the Objects 'App.debug' and 'App.settings.debug'.");
 	}
-  if (!hasRequiredStorage()) {
-    console.info("[INFO] Could not find all required localStorage.");
-    console.info("[INFO] Assuming that this is the first session, showing welcome section.");
+	if (!hasRequiredStorage()) {
+		console.info("[INFO] Could not find all required localStorage.");
+		console.info("[INFO] Assuming that this is the first session, showing welcome section.");
 		showSection("settings");
 		$(".welcome").removeClass("hidden");
 		//$(".settings-about").addClass("hidden");
 		$(".settings-dev").addClass("hidden");
 		$(".btn-settings-close").addClass("hidden");
-		$(".btn-save").on("click", function(){
+		$(".btn-save").on("click", function() {
 			var tryAddress = $(".settings-address").val();
 			var tryPort = $(".settings-port").val();
 			var tryUsername = $(".settings-username").val();
@@ -805,10 +804,10 @@ $(document).ready(function() {
 				location.reload();
 			}
 		});
-  }
-  else {
-    loadSettings();
-    registerListeners();
+	}
+	else {
+		loadSettings();
+		registerListeners();
 		popcorntimeConnect(App.settings.connection.ip, App.settings.connection.port, App.settings.connection.username, App.settings.connection.password);
 		if (App.connected) {
 			setInterval(function() {
@@ -818,5 +817,5 @@ $(document).ready(function() {
 				}
 			}, App.settings.interval);
 		}
-  }
+	}
 });
