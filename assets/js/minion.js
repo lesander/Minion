@@ -334,12 +334,13 @@ function responseHandler(request, response) {
 		case 'getstreamurl':
 			$("#streamer-video").attr("src", response.result.streamUrl);
 			$("#streamer-source").attr("src", response.result.streamUrl);
-			$("#streamer-video > a").attr("href", response.result.streamUrl);
-			if (window.App.subtitles[window.App.selectedSubtitles] != "undefined") {
+			//$("#streamer-video").attr("src", response.result.streamUrl);
+			if (window.App.subtitles[window.App.selectedSubtitles] !== undefined) {
 				console.debug("[DEBUG] Selected subtitles: " + window.App.subtitles[window.App.selectedSubtitles]);
 				$("#streamer-track").attr("srclang", window.App.selectedSubtitles);
-				$("#streamer-track").attr("src", App.settings.zipExtractor + "?key=574380257039257432968&url=" + window.App.subtitles[window.App.selectedSubtitles]);
+				$("#streamer-track").attr("src", window.App.settings.zipExtractor + "?key=574380257039257432968&url=" + window.App.subtitles[window.App.selectedSubtitles]);
 			}
+			$("#streamer-link").attr("href", "streamer.html?extractor=" + window.App.settings.zipExtractor + "&lang=" + window.App.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + window.App.subtitles[window.App.selectedSubtitles]);
 			break;
 		case 'toggleplaying':
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <style>
+        html,
+        video {
+          background-color: #17181b;
+        }
+        #streamer-video {
+          width: 100%;
+        }
+      </style>
+    </head>
+    <body>
+      <video id="streamer-video" src="" autoplay="false" controls crossorigin>
+        It seems that your browser doesn't support HTML5 video,
+        but don't worry, you can <a href="">save the video</a> and 
+        watch it with your favourite video player!
+        <source id="streamer-source" src="" type="video/mp4">
+        <track id="streamer-track" type="text/x-srt" kind="subtitles" src="" srclang="" label="subtitles" default></track>
+        <!--// add placeholder? //-->
+      </video>
+      <script src="assets/js/jquery.min.js"></script>
+      <script>
+        var params = location.href.split('?')[1].split('&');
+        data = {};
+        for (x in params) {
+          data[params[x].split('=')[0]] = params[x].split('=')[1];
+        }
+        $("#streamer-video").attr("src", data.src);
+        $("#streamer-source").attr("src", data.src);
+        $("#streamer-video > a").attr("href", data.src);
+        $("#streamer-track").attr("srclang", data.lang);
+        if (data.subs !== "undefined") {
+          $("#streamer-track").attr("src", data.extractor + "?key=574380257039257432968&url=" + data.subs);
+        }
+        console.info("[INFO] streamer.html: video data injected.");
+      </script>
+    </body>
+  </html>
