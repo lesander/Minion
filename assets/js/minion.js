@@ -233,7 +233,10 @@ function responseHandler(request, response) {
 					$(".btn-movie-detail-favourite span").html('Bookmarked');
 				}
 				if (response.result.watched) {
-					// toggle as watched?
+					// toggle as watched
+					$(".btn-movie-detail-watched").find("i").toggleClass("none watched-icon");
+					$(".btn-movie-detail-watched").addClass("watched-icon");
+					$(".btn-movie-detail-watched span").html('Watched');
 				}
 				// check for state of subtitles. -> getselectedsubtitles?
 				// store subtitle zips in array.
@@ -265,7 +268,12 @@ function responseHandler(request, response) {
 			}
 			if (response.result.type === "movie") {
 				$.each(response.result.list, function(key, value) {
-					$("#main-browser .list").append('<li class="item" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
+					if (response.result.list[key].watched) {
+						$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
+					}
+					else {
+						$("#main-browser .list").append('<li class="item" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
+					}
 				});
 			}
 			else if (response.result.type === "show") {
@@ -369,6 +377,20 @@ function responseHandler(request, response) {
 				}
 			}
 			break;
+		case 'togglewatched':
+			if (window.App.view === "movie-detail") {
+				var btn = $(".btn-movie-detail-watched");
+				$(btn).find("i").toggleClass("none watched-icon");
+				if ($(btn).hasClass("watched-icon")) {
+					$(btn).removeClass("watched-icon");
+					$(".btn-movie-detail-watched span").html('Mark watched');
+				}
+				else {
+					$(btn).addClass("added");
+					$(".btn-movie-detail-watched span").html('Watched');
+				}
+			}
+			break;
 		case 'setsubtitle':
 			if (window.App.view === "movie-detail") {
 				$(".movie-detail-select-subtitles").val(request.params);
@@ -407,7 +429,6 @@ function responseHandler(request, response) {
 		case 'showfavourites':
 		case 'showabout':
 		case 'showsettings':
-		case 'togglewatched':
 		case 'previousseason':
 		case 'nextseason':
 		case 'back':
@@ -422,6 +443,7 @@ function responseHandler(request, response) {
 			break;
 		default:
 			// Unknown method.
+			console.warn("[WARNING] Unknown method '" + request.method + "'.");
 	}
 }
 
@@ -627,6 +649,9 @@ function registerListeners() {
 	})
 	$(".btn-movie-detail-favourite").on("click", function() {
 		popcorntimeAPI("togglefavourite");
+	});
+	$(".btn-movie-detail-watched").on("click", function() {
+		popcorntimeAPI("togglewatched");
 	});
 	$(".movie-detail-select-subtitles").on("change", function() {
 		popcorntimeAPI("setsubtitle", [this.value]);

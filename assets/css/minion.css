@@ -227,10 +227,18 @@ img.minion {
   font-size: 13px;
   -webkit-font-smoothing: antialiased;
 }
-
 .item-year {
   color: #5b5b5b;
   display: inline;
+}
+.watched > .item-cover > .item-overlay {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0, .6);
+}
+.watched > .item-info,
+.watched > .item-info > .item-title {
+  color: grey !important;
 }
 
 /*! SECTION:MOVIE-DETAIL */
@@ -250,7 +258,6 @@ img.minion {
   border-bottom-left-radius: 6px;
 }
 .movie-detail-poster {
-  /*width: 100%;*/
   max-height: 200px;
   margin-bottom: 15px;
   border-radius: 6px;
@@ -344,14 +351,18 @@ img.minion {
   background-color: #225694 !important;
   border-color: #225694 !important;
 }
-.btn-movie-detail-favourite {
+.btn-movie-detail-favourite,
+.btn-movie-detail-watched {
   display: block;
   height: 34px;
   padding: 6px 12px;
 }
 .btn-movie-detail-favourite,
 .btn-movie-detail-favourite:hover,
-.btn-movie-detail-favourite:focus {
+.btn-movie-detail-favourite:focus,
+.btn-movie-detail-watched,
+.btn-movie-detail-watched:hover,
+.btn-movie-detail-watched:focus {
   color: #fff;
   text-decoration: none;
   cursor: pointer;
@@ -404,6 +415,17 @@ img.minion {
 .player-icon-main {
   height: 18.5px;
   width: 18.5px;
+}
+@media (min-width: 1200px) {
+  .movie-detail-container {
+    background-size: 100%;
+  }
+  .movie-detail-poster {
+    max-height: 400px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    margin-top: 10px;
+  }
 }
 
 /*! SECTION:STREAMER */
