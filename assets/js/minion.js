@@ -223,6 +223,12 @@ function responseHandler(request, response) {
 				$(".movie-detail-synopsis").html("<p>" + response.result.synopsis + "</p>");
 				$(".expand").removeClass("hidden");
 				$(".movie-detail").addClass("minimised");
+				$(".btn-movie-detail-favourite").removeClass("added");
+				$(".btn-movie-detail-favourite").find("i").removeClass("red");
+				$(".btn-movie-detail-favourite span").html('Bookmark');
+				$(".btn-movie-detail-watched").removeClass("watched-icon");
+				$(".btn-movie-detail-watched").find("i").removeClass("none watched-icon");
+				$(".btn-movie-detail-watched span").html('Mark watched');
 				$(".movie-detail-genre").html("" + response.result.genre + "");
 				$(".movie-detail-runtime").html("" + response.result.runtime + " min");
 				$(".movie-detail-imdb").html('<a href="http://imdb.com/title/' + response.result.imdb_id + '/" target="_blank"><img src="assets/img/imdb.png"></a>');
