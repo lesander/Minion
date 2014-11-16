@@ -6,7 +6,7 @@
     Released under the GNU GPL V3 License
     http://git.io/minion
   //-->
-  <html lang="en" manifest="minion.appcache">
+  <html lang="en"> <!--// manifest="minion.appcache" //-->
     <head>
       <meta charset="utf-8">
       <title>Minion</title>
@@ -30,24 +30,50 @@
       
       <!--// SECTION:NOSCRIPT //-->
       <noscript>
-        
+        <h2>Enable Javascript</h2>
+        <p>
+          Hey, you! Minion needs Javascript to be enabled in your browser.
+          Please enable Javascript and then come back here.
+        </p>
+        <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
       </noscript>
       
       <!--// SECTION:MENU //-->
       <div id="menu" class="hidden">
-        
+        <div class="nav-title">Minion</div>
+        <ul class="nav nav-hor pull-left">
+          <li class="btn-movies">Movies</li>
+          <li class="btn-shows">TV Series</li>
+          <li class="btn-anime">Anime</li>
+        </ul>
+        <ul class="nav nav-hor nav-icons pull-right">
+          <li class="btn-inbox"><i class="btn-inbox-icon fa fa-inbox"></i></li> 
+          <li class="btn-favourites"><i class="btn-favourites-icon fa fa-heart"></i></li> 
+          <li class="btn-settings"><i class="btn-settings-icon fa fa-cog"></i></li>
+        </ul>
       </div>
       
       <div id="contents">
         
         <!--// SECTION:DEFAULT //-->
         <div id="default" class="section hidden">
-          
+          <h1>Minion</h1>
+          <div class="version"></div>
+          <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
         </div>
         
         <!--// SECTION:MAIN-BROWSER //-->
         <div id="main-browser" class="section hidden">
-          
+          <div class="loading-list hidden">
+            <h1>Whoops!</h1>
+            <div class="sub">
+              Check your Popcorn Time client. Something went wrong on their side.
+              Detailed error: Got empty list, is the client still loading, or did it have an error while loading data?
+              <!--//<a href="" class="btn btn-primary btn-minion">Retry</a>//-->
+            </div>
+            <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
+          </div>
+          <ul class="list"></ul>
         </div>
         
         <!--// SECTION:SHOWS-CONTAINER //-->
@@ -57,32 +83,142 @@
         
         <!--// SECTION:MOVIE-DETAIL //-->
         <div id="movie-detail" class="section hidden">
-          
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          <div class="row movie-detail-container">
+            <div class="col-xs-6">
+              <img class="movie-detail-poster" src="">
+            </div>
+            <div class="col-xs-12 movie-detail-metadata">
+              <div class="movie-detail-title">Title</div>
+              <span class="movie-detail-year">Year</span>  &#149; 
+              <span class="movie-detail-rating">Rating</span>  &#149; 
+              <span class="movie-detail-genre"></span> &#149; 
+              <span class="movie-detail-runtime"></span> &#149; 
+              <span class="movie-detail-imdb"></span>
+              <div class="movie-detail-synopsis minimised"></div>
+              <div id="expand" class="movie-detail-synopsis-more"><i><a href="#expand" class="btn btn-link expand">Read more</a></i></div>
+            </div>
+            <div id="movdet-actions" class="col-xs-12 movie-detail-actions">
+              <div class="row">
+                <div class="col-xs-6">
+                  <a class="btn-movie-detail-favourite"><i class="fa fa-heart none"></i> <span>Bookmark</span></a>
+                </div>
+                <div class="col-xs-6">
+                  <select class="movie-detail-select-subtitles form-control"><option>Loading subtitles..</option></select>
+                </div>
+              </div>
+              <br/>
+              <div class="btn-group btn-watch-group dropup">
+                <button type="button" class="btn btn-default btn-watch">Watch Now</button>
+                <button type="button" class="btn btn-default btn-players-caret dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret caret-icon"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu select-players" role="dropdown-menu"></ul>
+              </div>
+              <button type="button" class="btn btn-default btn-trailer">Watch Trailer</button>
+              <button type="button" class="btn btn-default btn-minion btn-movie-detail-quality">.</button>
+            </div>
+          </div>
         </div>
         
         <!--// SECTION:DOWNLOADING //-->
         <div id="downloading" class="section hidden">
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          <h1>Please wait</h1>
+          <div class="sub">Your Popcorn Time client is preparing the selected item.</div>
+          <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
+        </div>
+        
+        <!--// SECTION:LOSTCONNECTION //-->
+        <div id="lostconnection" class="section hidden">
+          <h1>Whoops!</h1>
+          <div class="sub">
+            Minion lost connection with your Popcorn Time client.
+            <!--//<a href="" class="btn btn-primary btn-minion">Retry</a>//-->
+          </div>
           
+          <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
         </div>
         
         <!--// SECTION:LOADING //-->
         <div id="loading" class="section hidden">
-          
+          <h1>Waiting...</h1>
+          <div class="sub">Waiting for Popcorn Time client to finish loading.</div>
+          <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
         </div>
         
         <!--// SECTION:PLAYER //-->
         <div id="player" class="section hidden">
-          
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          player section
+        </div>
+        
+        <!--// SECTION:STREAMER //-->
+        <div id="streamer" class="section hidden">
+          <div class="btn-back btn-stop-stream pull-right"><i class="fa fa-close"></i></div>
+          <video id="streamer-video" src="" autoplay="false" controls crossorigin>
+            It seems that your browser doesn't support HTML5 video,
+            but don't worry, you can <a href="">save the video</a> and 
+            watch it with your favourite video player!
+            <source id="streamer-source" src="" type="video/mp4">
+            <track id="streamer-track" type="text/x-srt" kind="subtitles" src="" srclang="" label="subtitles" default></track>
+            <!--// add placeholder? //-->
+          </video>
         </div>
         
         <!--// SECTION:ABOUT //-->
         <div id="about" class="section hidden">
-          
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          <div class="about">
+            <h3>About</h3>
+            <p>
+              Minion is developed by the Popcorn Time Remote (PTR) Team.<br/>Copyright &copy; 2014 the PTR Team.<br/>
+              Licensed under the <a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GNU GPL V3</a> license.<br/>
+            </p>
+            <p>
+              Contributors: Mick de Graaf, Sander Laarhoven and Jon Alexopoulos.
+            </p>
+            <p>
+              Popcorn Time Remote (PTR) and Minion are not affiliated with <a href="">Popcorn Time</a> itself. Please report problems with Popcorn Time to <a href="https://git.popcorntime.io/jira" target="_blank">their issue tracker</a>.
+            </p>
+            <p>
+              Minion Logo created by <a href="http://www.designbolts.com/">Zee Que</a>, licensed under the <a href="http://creativecommons.org/licenses/by/3.0/deed.en_US">Creative Commons Attribution 3.0 Unported License</a>.
+            </p>
+            <p>
+              We've done everything we can to make your experience with Minion as pleasant as possible. If you've got a problem, suggestion or idea please let us know.
+            </p>
+          </div>
         </div>
         
         <!--// SECTION:SETTINGS //-->
         <div id="settings" class="section hidden">
-          
+          <div class="btn-settings-close pull-right"><i class="fa fa-close"></i></div>
+          <div class="welcome hidden">
+            <h2>Welcome to Minion!</h2>
+            <p>
+              Minion is an application that connects with your Popcorn Time client running on your pc.
+              With Minion, you can control and stream Popcorn Time's videos right to any of your devices!
+            </p>
+            <p>
+              To get started, fill in the connection details of your Popcorn Time client.
+              Need some help? We've written an article just for you, <a href="">see here</a>.
+            </p>
+          </div>
+          <div class="settings-form">
+            <h3>Settings</h3>
+            <form>
+              <input class="form-control settings-address" type="text" value="" placeholder="address">
+              <input class="form-control settings-port" type="number" value="" placeholder="port">
+              <input class="form-control settings-username" type="text" value="" placeholder="username">
+              <input class="form-control settings-password" type="password" value="" placeholder="password">
+              <a class="btn btn-primary btn-minion btn-save pull-right" href="#">Save</a>
+            </form>
+          </div>
+          <div class="settings-dev">
+            <a class="btn btn-primary btn-minion btn-reload" href="#" onclick="location.reload();">Restart App</a>
+            <a class="btn btn-link btn-reset" href="#">Reset App</a>
+          </div>
         </div>
         
       </div>
