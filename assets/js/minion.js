@@ -215,6 +215,9 @@ function responseHandler(request, response) {
 
 			}
 			else if (window.App.view === "movie-detail") {
+				if (response.result.image === "images/posterholder.png") {
+					response.result.image = "assets/img/posterholder.png";
+				}
 				$(".movie-detail-poster").attr("src", response.result.image);
 				$(".movie-detail-container").attr("style", "background-image: url(" + response.result.backdrop + ");");
 				$(".movie-detail-title").html("" + response.result.title + "");
@@ -274,6 +277,9 @@ function responseHandler(request, response) {
 			}
 			if (response.result.type === "movie") {
 				$.each(response.result.list, function(key, value) {
+					if (value.image === "images/posterholder.png") {
+						value.image = "assets/img/posterholder.png";
+					}
 					if (response.result.list[key].watched) {
 						$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
 					}
@@ -284,6 +290,9 @@ function responseHandler(request, response) {
 			}
 			else if (response.result.type === "show") {
 				$.each(response.result.list, function(key, value) {
+					if (value.images.poster === "images/posterholder.png") {
+						value.images.poster = "assets/img/posterholder.png";
+					}
 					$("#main-browser .list").append('<li class="item" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.images.poster + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><!--//<span class="item-rating pull-right">' + value.rating + '/10</span>//--></div></li>');
 				});
 			}
