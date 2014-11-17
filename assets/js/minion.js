@@ -497,6 +497,7 @@ function responseHandler(request, response) {
 		case 'filtersearch':
 		case 'ping':
 		case 'watchtrailer':
+		case 'setselection':
 			// Nothing to do with these requests (yet).
 			console.info("[INFO] Method '" + request.method + "' has no handler.");
 			break;
