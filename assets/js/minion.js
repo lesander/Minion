@@ -305,7 +305,10 @@ function responseHandler(request, response) {
 			}
 			if (response.result.type === "movie") {
 				$.each(response.result.list, function(key, value) {
-					if (value.image === "images/posterholder.png") {
+					if (typeof value.image == "undefined") {
+						value.image = value.images.poster; // For the sake of anime tv series posters.
+					}
+					else if (value.image === "images/posterholder.png") {
 						value.image = "assets/img/posterholder.png";
 					}
 					if (response.result.list[key].watched) {
@@ -325,7 +328,7 @@ function responseHandler(request, response) {
 				});
 			}
 			else if (response.result.type === "anime") {
-				// todo.
+				// PT never gives type=anime, it gives type=movie instead..
 			}
 			else if (response.result.type === "bookmarkedmovie") {
 				// can be both movies, shows and anime.
