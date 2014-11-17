@@ -279,7 +279,7 @@ img.minion {
 .movie-detail-metadata {
   padding-top: 10px;
   padding-bottom: 30px;
-  background: #000;
+  background: #17181b;
   -webkit-box-shadow: 2px -1px 7px 0px rgba(0,0,0,0.9);
   box-shadow: 2px -1px 7px 0px rgba(0,0,0,0.9);
 }
@@ -301,7 +301,7 @@ img.minion {
   overflow-y: hidden;
 }
 .movie-detail-actions {
-  background: #000;
+  background: #17181b;
   padding-bottom: 20px;
 }
 .btn-watch {
