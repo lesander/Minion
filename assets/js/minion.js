@@ -311,11 +311,20 @@ function responseHandler(request, response) {
 					else if (value.image === "images/posterholder.png") {
 						value.image = "assets/img/posterholder.png";
 					}
-					if (response.result.list[key].watched) {
-						$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
+					if (typeof value.year == "undefined") {
+						value.year = "";
+					}
+					if (typeof value.rating == "undefined") {
+						value.rating = "";
 					}
 					else {
-						$("#main-browser .list").append('<li class="item" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
+						value.rating = value.rating + "/10";
+					}
+					if (response.result.list[key].watched) {
+						$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '</span></div></li>');
+					}
+					else {
+						$("#main-browser .list").append('<li class="item" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '</span></div></li>');
 					}
 				});
 			}
