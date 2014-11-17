@@ -96,7 +96,7 @@
             <div class="col-xs-12 show-detail-actions">
               <center>
                 <select class="form-control episodes-list"></select>
-                <div class="">Bookmark</div> <!--// todo! //-->
+                <div class="btn-show-detail-favourite"><i class="fa fa-heart none"></i> <span>Bookmark</span></div>
               </center>
             </div>
             <div class="col-xs-12 episode-detail">
@@ -104,8 +104,16 @@
               <span class="episode-detail-season"></span>
               <span class="episode-detail-episode"></span>
               <div class="episode-detail-synopsis"></div>
-              
-              
+              <br/>
+              <div class="btn-group btn-watch-episode-group dropup">
+                <button type="button" class="btn btn-default btn-watch-episode">Watch Now</button>
+                <button type="button" class="btn btn-default btn-players-episode-caret dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret caret-icon"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu select-players-episode" role="dropdown-menu"></ul>
+              </div>
+              <button type="button" class="btn btn-default btn-minion btn-episode-detail-quality">.</button>
               <!--//
               - watch now
               - player select
