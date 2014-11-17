@@ -256,7 +256,35 @@ function responseHandler(request, response) {
 
 			}
 			else if (window.App.view === "shows-container-contain") {
-				// ...
+				// show info of show.
+				console.debug(response);
+				response.result.imdb_id //IMDb
+				response.result.tvdb_id //TVDb
+				$(".show-detail-title").text(response.result.title);
+				$(".show-detail-year").text(response.result.year + " - " + response.result.status);
+				$(".show-detail-seasons").text(response.result.num_seasons + " Seasons");
+				$(".show-detail-runtime").text(response.result.runtime + " min");
+				$(".show-detail-synopsis").html("<p>" + response.result.synopsis + "</p>");
+				$(".show-detail-genre").html(response.result.genres[0]);
+				$(".show-detail-rating").text([response.result.rating.percentage/10] + "/10");
+				$(".show-detail-poster").attr("src", response.result.images.poster);
+				$(".show-detail-imdb").html('<a href="http://imdb.com/title/' + response.result.imdb_id + '/" target="_blank"><img src="assets/img/imdb.png"></a>');
+				$(".show-detail-container").attr("style", "background-image: url(" + response.result.images.fanart + ");");
+				// show info of selected episode.
+				$(".episode-detail-title").text(response.result.selectedEpisode.title);
+				$(".episode-detail-season").text("Season " + response.result.selectedEpisode.season + ", ");
+				$(".episode-detail-episode").text("Episode " + response.result.selectedEpisode.episode);
+				$(".episode-detail-synopsis").text(response.result.selectedEpisode.overview);
+				// generate list of available episodes.
+				$(".episodes-list").children().remove();
+				$(".episodes-list").append('<option value="">Select Episode</option>');
+				for (var i = 1; i <= response.result.num_seasons; i++) {
+					$.each(response.result.episodes, function(key, value) {
+						if (value.season === i) {
+							$(".episodes-list").append('<option value="' + value.season + '-' + value.episode + '"> S' + value.season + ' E' + value.episode + ' ' + value.title + '</option>');
+						}
+					});
+				}
 			}
 			else {
 				// Unknown
@@ -432,6 +460,9 @@ function responseHandler(request, response) {
 					btn.text("1080p");
 				}
 			}
+			break;
+		case 'selectepisode':
+			popcorntimeAPI("getselection");
 			break;
 		case 'up':
 		case 'down':
@@ -693,6 +724,13 @@ function registerListeners() {
 	});
 	$(".btn-watch").on("click", function() {
 		popcorntimeAPI("enter");
+	});
+	// TV Show button handlers.
+	$(".episodes-list").on("change", function() {
+		var data = $(this).val();
+		var dataArray = data.split('-');
+		popcorntimeAPI("selectepisode", [dataArray[0], dataArray[1]]);
+		// update view?
 	});
 	// Back button.
 	$(".btn-back").on("click", function() {

@@ -250,7 +250,7 @@ img.minion {
   background-size: 130%;
   background-repeat: no-repeat;
 }
-.movie-detail-main {
+.movie-detail-main { /*<-- unused code? */
   padding: 6px;
   background: rgba(0,0,0,.4);
   text-shadow: 3px 3px 3px #333;
@@ -421,6 +421,99 @@ img.minion {
     background-size: 100%;
   }
   .movie-detail-poster {
+    max-height: 400px;
+    margin-bottom: 20px;
+    margin-left: 15px;
+    margin-top: 10px;
+  }
+}
+
+/*! SECTION:SHOWS-CONTAINER */
+.show-detail-container {
+  padding-top: 10px;
+  margin-right: -10px !important;
+  margin-left: -10px !important;
+  background: grey;
+  background-size: 130%;
+  background-repeat: no-repeat;
+}
+.show-detail-poster {
+  max-height: 200px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  margin-left: 5px;
+}
+.show-detail-poster {
+  -webkit-box-shadow: rgb(0, 0, 0) 0px 0px 10px 0px;
+  box-shadow: rgb(0, 0, 0) 0px 0px 10px 0px;
+}
+.show-detail-title {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.show-detail-rating {
+  color: #efef10;
+}
+.show-detail {
+  padding-top: 10px;
+  padding-bottom: 30px;
+  background: #17181b;
+  -webkit-box-shadow: 2px -1px 7px 0px rgba(0,0,0,0.9);
+  box-shadow: 2px -1px 7px 0px rgba(0,0,0,0.9);
+}
+.show-detail > span {
+  padding-left: 3px;
+  padding-right: 3px;
+}
+.show-detail-year {
+  padding-right: 0 !important;
+}
+.show-detail-genre {
+  padding-left: 0 !important;
+}
+.show-detail-synopsis {
+  padding-top: 10px;
+}
+.show-detail-actions {
+  background-color: #17181b;
+  padding-bottom: 40px;
+}
+.episodes-list {
+  color: #fff;
+  width: auto;
+  border-color: #1f375f;
+  background: #1f375f;
+  border-radius: 3px;
+}
+.episodes-list:focus {
+  border-color: transparent;
+  outline: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.episode-detail {
+  background-color: #1f2025;
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+.episode-detail-title {
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+.episode-detail-synopsis {
+  margin-top: 10px;
+}
+.episode-detail-season,
+.episode-detail-episode {
+  color: grey;
+}
+@media (min-width: 1200px) {
+  .show-detail-container {
+    background-size: 100%;
+  }
+  .show-detail-poster {
     max-height: 400px;
     margin-bottom: 20px;
     margin-left: 15px;
