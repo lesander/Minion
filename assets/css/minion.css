@@ -70,7 +70,7 @@ img.minion {
 
 /*! SECTION:MENU */
 .nav-title {
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
   z-index: 10000;
@@ -80,6 +80,8 @@ img.minion {
   margin-top: 6px;
 }
 #menu {
+  position: fixed;
+  top: 0;
   z-index: 10;
   padding-top: 32px;
   height: 67px;
@@ -89,6 +91,9 @@ img.minion {
   -webkit-user-select: none;
   -webkit-box-shadow: 0px 6px 8px -4px rgba(0,0,0,0.9);
   box-shadow: 0px 6px 8px -4px rgba(0,0,0,0.9);
+}
+#contents {
+  margin-top: 67px;
 }
 .nav-icons > li {
   padding: 0 !important;
