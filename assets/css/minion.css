@@ -309,13 +309,17 @@ img.minion {
   background: #17181b;
   padding-bottom: 20px;
 }
-.btn-watch {
+.btn-watch,
+.btn-watch-episode {
   padding-left: 11px;
   padding-right: 11px;
 }
 .btn-watch,
+.btn-watch-episode,
 .btn-trailer,
 .btn-players-caret,
+.btn-players-episode-caret,
+.btn-episode-detail-quality,
 .btn-movie-detail-quality {
   margin-left: 3px;
   color: #fff;
@@ -325,7 +329,9 @@ img.minion {
   padding-bottom: 7px;
 }
 .btn-watch-group,
+.btn-watch-episode-group,
 .btn-trailer,
+.btn-episode-detail-quality,
 .btn-movie-detail-quality {
   margin-bottom: 7px;
 }
@@ -337,26 +343,37 @@ img.minion {
 .btn-watch:hover,
 .btn-watch:active,
 .btn-watch:focus,
+.btn-watch-episode:hover,
+.btn-watch-episode:active,
+.btn-watch-episode:focus,
 .btn-trailer:hover,
 .btn-trailer:active,
 .btn-trailer:focus,
 .btn-players-caret:hover,
 .btn-players-caret:focus,
 .btn-players-caret:active,
+.btn-players-episode-caret:hover,
+.btn-players-episode-caret:focus,
+.btn-players-episode-caret:active,
 .btn-movie-detail-quality:hover,
 .btn-movie-detail-quality:active,
-.btn-movie-detail-quality:focus {
+.btn-movie-detail-quality:focus,
+.btn-episode-detail-quality:hover,
+.btn-episode-detail-quality:active,
+.btn-episode-detail-quality:focus {
   background: #225694;
   border-color: #225694;
   text-decoration: none;
   color: #fff;
 }
+.open > .dropdown-toggle.btn-players-episode-caret,
 .open > .dropdown-toggle.btn-players-caret {
   color: #fff !important;
   background-color: #225694 !important;
   border-color: #225694 !important;
 }
 .btn-movie-detail-favourite,
+.btn-show-detail-favourite,
 .btn-movie-detail-watched {
   display: block;
   height: 34px;
@@ -366,6 +383,9 @@ img.minion {
 .btn-movie-detail-favourite,
 .btn-movie-detail-favourite:hover,
 .btn-movie-detail-favourite:focus,
+.btn-show-detail-favourite,
+.btn-show-detail-favourite:hover,
+.btn-show-detail-favourite:focus,
 .btn-movie-detail-watched,
 .btn-movie-detail-watched:hover,
 .btn-movie-detail-watched:focus {
@@ -400,15 +420,19 @@ img.minion {
 .movie-detail-select-subtitles > option {
   color: #333;
 }
-.select-players {
+.select-players,
+.select-players-episode {
   background: #17181b;
 }
 .player-selected,
-.change-player:hover {
+.player-episode-selected,
+.change-player:hover,
+.change-player-episode:hover {
   background: #0b131f !important;
   color: #fff;
 }
-.change-player {
+.change-player,
+.change-player-episode {
   color: #fff !important;
 }
 .player-icon {
