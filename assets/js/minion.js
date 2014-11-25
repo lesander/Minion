@@ -787,6 +787,9 @@ function registerListeners() {
 		popcorntimeAPI("enter");
 	});
 	// TV Show button handlers.
+	$(".btn-watch-episode").on("click", function() {
+		popcorntimeAPI("enter");
+	});
 	$(".episodes-list").on("change", function() {
 		var data = $(this).val();
 		var dataArray = data.split('-');
