@@ -176,7 +176,8 @@ function popcorntimeAPI(method, parameters) {
 				// We most likely lost connection.
 				window.App.exit = true;
 				showSection("lostconnection");
-				throw new Error("Lost connection to Popcorn Time client.");
+				throw new Error("Lost connection to Popcorn Time client. Stopping interval.");
+				window.App.settings.debug.doInterval = false;
 				return;
 			}
 			window.App.errorCount = window.App.errorCount + 1;
@@ -270,11 +271,22 @@ function responseHandler(request, response) {
 				$(".show-detail-poster").attr("src", response.result.images.poster);
 				$(".show-detail-imdb").html('<a href="http://imdb.com/title/' + response.result.imdb_id + '/" target="_blank"><img src="assets/img/imdb.png"></a>');
 				$(".show-detail-container").attr("style", "background-image: url(" + response.result.images.fanart + ");");
+				if (response.result.bookmarked) {
+					$(".btn-show-detail-favourite").find("i").toggleClass("none red");
+					$(".btn-show-detail-favourite").addClass("added");
+					$(".btn-show-detail-favourite span").text('Bookmarked');
+				}
 				// show info of selected episode.
 				$(".episode-detail-title").text(response.result.selectedEpisode.title);
 				$(".episode-detail-season").text("Season " + response.result.selectedEpisode.season + ", ");
 				$(".episode-detail-episode").text("Episode " + response.result.selectedEpisode.episode);
 				$(".episode-detail-synopsis").text(response.result.selectedEpisode.overview);
+				if (typeof response.result.selectedEpisode.torrents["720p"] !== "undefined") {
+					$(".btn-episode-detail-quality").text("720p");
+				}
+				else {
+					$(".btn-episode-detail-quality").text("480p");
+				}
 				// generate list of available episodes.
 				$(".episodes-list").children().remove();
 				$(".episodes-list").append('<option value="">Select Episode</option>');
@@ -409,6 +421,14 @@ function responseHandler(request, response) {
 					$(".select-players").append('<li role="presentation" data-player="' + value.id + '"><a role="menuitem" tabindex="-1" class="change-player" href="#movdet-actions">' + value.name + ' <img class="player-icon" src="assets/img/player-' + value.id + '.png"></a></li>');
 				});
 			}
+			else if (window.App.view === "shows-container-contain") {
+				$(".select-players-episode").children().remove();
+				$(".select-players-episode").append('<li role="presentation" class="dropdown-header">Select a device to stream to</li>');
+				$(".select-players-episode").append('<li role="presentation" data-player=""><a role="menuitem" tabindex="-1" class="change-player-episode" href="#episode-actions">This device <img class="player-icon" src="assets/img/player-external.png"></a></li>');
+				$.each(response.result.players, function(index, value) {
+					$(".select-players-episode").append('<li role="presentation" data-player="' + value.id + '"><a role="menuitem" tabindex="-1" class="change-player-episode" href="#movdet-actions">' + value.name + ' <img class="player-icon" src="assets/img/player-' + value.id + '.png"></a></li>');
+				});
+			}
 			break;
 		case 'getgenres':
 
@@ -425,11 +445,23 @@ function responseHandler(request, response) {
 				$(btn).find("i").toggleClass("none red");
 				if ($(btn).hasClass("added")) {
 					$(btn).removeClass("added");
-					$(".btn-movie-detail-favourite span").html('Bookmark');
+					$(".btn-movie-detail-favourite span").text("Bookmark");
 				}
 				else {
 					$(btn).addClass("added");
-					$(".btn-movie-detail-favourite span").html('Bookmarked');
+					$(".btn-movie-detail-favourite span").text("Bookmarked");
+				}
+			}
+			else if (window.App.view === "shows-container-contain") {
+				var btn = $(".btn-show-detail-favourite");
+				$(btn).find("i").toggleClass("non red");
+				if ($(btn).hasClass("added")) {
+					$(btn).removeClass("added");
+					$(".btn-show-detail-favourite span").text("Bookmark");
+				}
+				else {
+					$(btn).addClass("added");
+					$(".btn-show-detail-favourite span").text("Bookmarked");
 				}
 			}
 			break;
@@ -460,6 +492,13 @@ function responseHandler(request, response) {
 				$(".btn-players-caret > .caret-icon").removeClass("caret");
 				$(".btn-players-caret > .caret-icon").html('<img class="player-icon-main" src="' + iconsrc + '"> <i class="caret"></i>');
 			}
+			else if (window.App.view === "shows-container-contain") {
+				$('[data-player]').removeClass("player-selected-episode");
+				$('[data-player="' + request.params + '"]').addClass("player-selected-episode");
+				var iconsrc = $('[data-player="' + request.params + '"] > a > img').attr("src");
+				$(".btn-players-episode-caret > .caret-icon").removeClass("caret");
+				$(".btn-players-episode-caret > .caret-icon").html('<img class="player-icon-main" src="' + iconsrc + '"> <i class="caret"></i>');
+			}
 			//window.App.player = request.params;
 			break;
 		case 'togglequality':
@@ -470,6 +509,15 @@ function responseHandler(request, response) {
 				}
 				else if (btn.text() === "720p") {
 					btn.text("1080p");
+				}
+			}
+			else if (window.App.view === "shows-container-contain") {
+				var btn = $(".btn-episode-detail-quality");
+				if (btn.text() === "720p") {
+					btn.text("480p");
+				}
+				else if (btn.text() === "480p") {
+					btn.text("720p");
 				}
 			}
 			break;
@@ -744,6 +792,21 @@ function registerListeners() {
 		var dataArray = data.split('-');
 		popcorntimeAPI("selectepisode", [dataArray[0], dataArray[1]]);
 		// update view?
+	});
+	$(".btn-show-detail-favourite").on("click", function() {
+		popcorntimeAPI("togglefavourite");
+	});
+	$(".btn-episode-detail-quality").on("click", function() {
+		popcorntimeAPI("togglequality");
+	});
+	$(".select-players-episode").on("click", ".change-player-episode", function() {
+		if ($(this).parent().attr("data-player") === "") {
+			window.App.playHere = true;
+		}
+		else {
+			window.App.playHere = false;
+		}
+		popcorntimeAPI("setplayer", [$(this).parent().attr("data-player")]);
 	});
 	// Back button.
 	$(".btn-back").on("click", function() {
