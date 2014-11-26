@@ -27,13 +27,13 @@ When you open Minion for the first time, it'll ask you for the **connection sett
 
 
 ### FAQ's
-
+No FAQ's yet..
 
 ### Troubleshooting
-
+No Troubleshooting yet..
 
 ## Getting involved
-
+Do you want to report a bug, request a feature, contribute or translate the remote? Check out our handsome guide: [Contributing to Popcorn Time Remote](/CONTRIBUTING.md). All help is more than welcome!
 
 ## Versioning
 For transparency and insight into our release cycle, and for striving to maintain backwards compatibility, Popcorn Time Remote will be maintained according to the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
