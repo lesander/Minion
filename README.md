@@ -1,6 +1,8 @@
 # Minion
 *The best way to control Popcorn Time*
+
 Control your Popcorn Time client on your phone or tablet with Minion.
+
 Visit the project's website at http://popcorntimeremote.com/
 
 ## Features
@@ -16,8 +18,6 @@ With Minion, you can control your Popcorn Time client with ease. Here are a few 
 - Works without an internet connection ([Read here how](https://help.popcorntimeremote.com/#offline-mode)).
 But of course, there's way more! Discover for yourself, browse to [minion.popcorntimeremote.com](https://minion.popcorntimeremote.com) and start controlling yer Popcorn Time application.
 
-***
-
 ## How to use
 
 ### Getting Started
@@ -25,19 +25,15 @@ To start using Minion, you'll of course need Popcorn Time (duuh) and Minion. You
 
 When you open Minion for the first time, it'll ask you for the **connection settings** of your Popcorn Time app. You can find your connection settings inside the Popcorn Time app, under *Settings(the cog icon) -> Show advanced settings -> Connection*. By default, it'll look something like this: *image*. Once you've filled out the settings, **click proceed**. Now the remote will try to connect to your Popcorn Time app.
 
-***
 
 ### FAQ's
 
-***
 
 ### Troubleshooting
 
-***
 
 ## Getting involved
 
-***
 
 ## Versioning
 For transparency and insight into our release cycle, and for striving to maintain backwards compatibility, Popcorn Time Remote will be maintained according to the [Semantic Versioning](http://semver.org/) guidelines as much as possible.
@@ -51,7 +47,6 @@ Releases are numbered with the following format:
 * A new *patch* release indicates a bugfix or small change which does not affect compatibility.
 * A new *build* release indicates this is a pre-release of the version.
 
-***
 
 ## License
 If you distribute a copy or make a fork of this project, you have to credit this project as source, it's that simple.
@@ -62,7 +57,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
  
 You should have received a copy of the GNU General Public License along with this project. If not, see <http://www.gnu.org/licenses/>.
 
-***
 
 ## Contact
 You can contact us though:
@@ -70,7 +64,6 @@ You can contact us though:
 - Twtter: [@popcorntimeremote](https://twitter.com/popcorntimeremote)
 - GitHub Issuetracker: [github.com/ptrteam/minion/issues](https://github.com/ptrteam/minion/issues)
 
-***
 
 ## Todo list
 
@@ -86,4 +79,3 @@ Todo: move this list to a milestone ;)
 - [ ] Fix if only 720, 1080 or 420 is available, don't toggle in detail view.
 - [ ] Subtitle select in streamer (especially for tv shows).
 
-***
