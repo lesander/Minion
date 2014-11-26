@@ -72,10 +72,13 @@ Todo: move this list to a milestone ;)
 - [ ] Add search function.
 - [x] Add TV Shows support.
 - [x] Add js and css for TV shows section.
-- [ ] Add player actions (pause, forward, etc) when not streaming on current device.
+- [x] Add player actions (pause, forward, etc) when not streaming on current device.
 - [ ] Add app icons.
 - [ ] Add overlay section with loading spinner when waiting for the client (on clicks).
 - [ ] Version bump
 - [ ] Fix if only 720, 1080 or 420 is available, don't toggle in detail view.
 - [ ] Subtitle select in streamer (especially for tv shows).
+- [ ] Fix mark watched/watched button for tv show episodes.
+- [ ] Better metadata for anime movies and shows.
+- [ ] Fix anime tv show stuff.
 
