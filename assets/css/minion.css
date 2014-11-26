@@ -554,4 +554,70 @@ img.minion {
 #streamer-video {
   width: 100%;
 }
+.streamer-title {
+  font-size: 24px;
+  padding-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 10px;
+}
+
+/*! SECTION:PLAYER */
+#player {
+  padding-bottom: 20px;
+  padding-top: 40px;
+}
+.btn-player-circle {
+  width: 250px;
+  height: 250px;;
+  border-radius: 50%;
+  border: 50px solid #F5F5F5;
+  background: #17181b;
+}
+.btn-player-pause {
+  position: relative;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  font-size: 90px;
+  margin-left: 3px;
+  margin-top: 29px;
+  cursor: pointer;
+}
+.btn-player-up,
+.btn-player-left,
+.btn-player-right,
+.btn-player-down {
+  color: #000;
+  font-size: 32px;
+  cursor: pointer;
+}
+.btn-player-up {
+  margin-top: -223px;
+}
+.btn-player-left {
+  margin-top: 55px;
+  margin-left: -45px;
+}
+.btn-player-right {
+  margin-top: 55px;
+  margin-right: -45px;
+}
+.btn-player-down {
+  margin-top: 155px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -48,6 +48,7 @@ var App = {
 	"exit": false,
 	//"pagecount": 1, // 0 or 1?
 	//"nextpage": "",
+	"currentVolume": 0,
 	"page": 1,
 	"clientVersion": "",
 	"supportedversions": {
@@ -208,7 +209,6 @@ function responseHandler(request, response) {
 			//}
 			break;
 		case 'getplaying':
-				console.debug(response);
 				window.App.isPlaying = response.result.playing;
 				$(".streamer-title").text(response.result.title + " - " + response.result.quality);
 			break;
@@ -260,7 +260,6 @@ function responseHandler(request, response) {
 			}
 			else if (window.App.view === "shows-container-contain") {
 				// show info of show.
-				console.debug(response);
 				$(".show-detail-title").text(response.result.title);
 				$(".show-detail-year").text(response.result.year + " - " + response.result.status);
 				$(".show-detail-seasons").text(response.result.num_seasons + " Seasons");
@@ -390,24 +389,29 @@ function responseHandler(request, response) {
 			//});
 			break;
 		case 'getstreamurl':
-			$("#streamer-video").attr("src", response.result.streamUrl);
-			$("#streamer-source").attr("src", response.result.streamUrl);
-			//$("#streamer-video").attr("src", response.result.streamUrl);
-			if (window.App.subtitles[window.App.selectedSubtitles] !== undefined) {
-				console.debug("[DEBUG] Selected subtitles: " + window.App.subtitles[window.App.selectedSubtitles]);
-				$("#streamer-track").attr("srclang", window.App.selectedSubtitles);
-				$("#streamer-track").attr("src", window.App.settings.zipExtractor + "?key=574380257039257432968&url=" + window.App.subtitles[window.App.selectedSubtitles]);
+			if (window.App.playHere == true) {
+				$("#streamer-video").attr("src", response.result.streamUrl);
+				$("#streamer-source").attr("src", response.result.streamUrl);
+				//$("#streamer-video").attr("src", response.result.streamUrl);
+				if (window.App.subtitles[window.App.selectedSubtitles] !== undefined) {
+					console.debug("[DEBUG] Selected subtitles: " + window.App.subtitles[window.App.selectedSubtitles]);
+					$("#streamer-track").attr("srclang", window.App.selectedSubtitles);
+					$("#streamer-track").attr("src", window.App.settings.zipExtractor + "?key=574380257039257432968&url=" + window.App.subtitles[window.App.selectedSubtitles]);
+				}
+				$("#streamer-link").attr("href", "streamer.html?extractor=" + window.App.settings.zipExtractor + "&lang=" + window.App.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + window.App.subtitles[window.App.selectedSubtitles]);
+				$("#streamer-link").on("click", function() {
+					$("#streamer-video").get(0).pause();
+				});
 			}
-			$("#streamer-link").attr("href", "streamer.html?extractor=" + window.App.settings.zipExtractor + "&lang=" + window.App.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + window.App.subtitles[window.App.selectedSubtitles]);
-			$("#streamer-link").on("click", function() {
-				$("#streamer-video").get(0).pause();
-			});
+			else {
+				// ...
+			}
 			break;
 		case 'toggleplaying':
-
+			$(".btn-player-pause").toggleClass("fa-play fa-pause");
 			break;
 		case 'volume':
-
+			window.App.currentVolume = response.result.volume;
 			break;
 		case 'getsubtitles':
 			if (window.App.view === "movie-detail") {
@@ -439,7 +443,7 @@ function responseHandler(request, response) {
 				$(".select-players-episode").append('<li role="presentation" class="dropdown-header">Select a device to stream to</li>');
 				$(".select-players-episode").append('<li role="presentation" data-player=""><a role="menuitem" tabindex="-1" class="change-player-episode" href="#episode-actions">This device <img class="player-icon" src="assets/img/player-external.png"></a></li>');
 				$.each(response.result.players, function(index, value) {
-					$(".select-players-episode").append('<li role="presentation" data-player="' + value.id + '"><a role="menuitem" tabindex="-1" class="change-player-episode" href="#movdet-actions">' + value.name + ' <img class="player-icon" src="assets/img/player-' + value.id + '.png"></a></li>');
+					$(".select-players-episode").append('<li role="presentation" data-player="' + value.id + '"><a role="menuitem" tabindex="-1" class="change-player-episode" href="#episode-actions">' + value.name + ' <img class="player-icon" src="assets/img/player-' + value.id + '.png"></a></li>');
 				});
 			}
 			break;
@@ -619,9 +623,10 @@ function viewstackHandler(response) {
 			case 'player':
 				popcorntimeAPI("getplaying");
 				popcorntimeAPI("getsubtitles");
+				window.App.playHere = window.sessionStorage.getItem("playHere");
 				console.debug("[DEBUG] App.playHere = " + window.App.playHere + ".");
-				if (window.App.playHere) {
-					popcorntimeAPI("getstreamurl");
+				popcorntimeAPI("getstreamurl");
+				if (window.App.playHere == true) {
 					if (window.App.isPlaying) {
 						popcorntimeAPI("toggleplaying");
 					}
@@ -629,6 +634,10 @@ function viewstackHandler(response) {
 				}
 				else {
 					showSection("player");
+					if (window.App.isPlaying == false) {
+						$(".btn-player-pause").removeClass("fa fa-pause");
+						$(".btn-player-pause").addClass("fa fa-play")
+					}
 				}
 				break;
 			case 'settings-container-contain':
@@ -796,9 +805,11 @@ function registerListeners() {
 		if ($(this).parent().attr("data-player") === "") {
 			// This device is selected.
 			window.App.playHere = true;
+			window.sessionStorage.setItem("playHere", "true");
 		}
 		else {
 			window.App.playHere = false;
+			window.sessionStorage.setItem("playHere", "false");
 		}
 		popcorntimeAPI("setplayer", [$(this).parent().attr("data-player")]);
 	});
@@ -830,9 +841,11 @@ function registerListeners() {
 	$(".select-players-episode").on("click", ".change-player-episode", function() {
 		if ($(this).parent().attr("data-player") === "") {
 			window.App.playHere = true;
+			window.sessionStorage.setItem("playHere", "true");
 		}
 		else {
 			window.App.playHere = false;
+			window.sessionStorage.setItem("playHere", "false");
 		}
 		popcorntimeAPI("setplayer", [$(this).parent().attr("data-player")]);
 	});
@@ -846,6 +859,22 @@ function registerListeners() {
 	// Stop stream button.
 	$(".btn-stop-stream").on("click", function() {
 		$("#streamer-video").get(0).pause();
+	});
+	// Player handlers.
+	$(".btn-player-pause").on("click", function() {
+		popcorntimeAPI("toggleplaying");
+	});
+	$(".btn-player-up").on("click", function() {
+		popcorntimeAPI("volume", [window.App.currentVolume + 0.1]);
+	});
+	$(".btn-player-down").on("click", function() {
+		popcorntimeAPI("volume", [window.App.currentVolume - 0.1]);
+	});
+	$(".btn-player-left").on("click", function() {
+		popcorntimeAPI("seek", [-10]);
+	});
+	$(".btn-player-right").on("click", function() {
+		popcorntimeAPI("seek", [10]);
 	});
 	// Save settings handler.
 	$(".btn-save").on("click", function() {

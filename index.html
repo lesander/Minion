@@ -35,7 +35,7 @@
           Hey, you! Minion needs Javascript to be enabled in your browser.
           Please enable Javascript and then come back here.
         </p>
-        <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
+        <!--//<div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>//-->
       </noscript>
       
       <!--// SECTION:MENU //-->
@@ -59,7 +59,7 @@
         <div id="default" class="section hidden">
           <h1>Minion</h1>
           <div class="version"></div>
-          <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
+          <!--//<div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>//-->
         </div>
         
         <!--// SECTION:MAIN-BROWSER //-->
@@ -71,7 +71,7 @@
               Detailed error: Got empty list, is the client still loading, or did it have an error while loading data?
               <!--//<a href="" class="btn btn-primary btn-minion">Retry</a>//-->
             </div>
-            <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
+            <!--//<div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>//-->
           </div>
           <ul class="list"></ul>
         </div>
@@ -170,7 +170,7 @@
           <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
           <h1>Please wait</h1>
           <div class="sub">Your Popcorn Time client is preparing the selected item.</div>
-          <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
+          <!--//<div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>//-->
         </div>
         
         <!--// SECTION:LOSTCONNECTION //-->
@@ -181,20 +181,42 @@
             <!--//<a href="" class="btn btn-primary btn-minion">Retry</a>//-->
           </div>
           
-          <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
+          <!--//<div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>//-->
         </div>
         
         <!--// SECTION:LOADING //-->
         <div id="loading" class="section hidden">
           <h1>Waiting...</h1>
           <div class="sub">Waiting for Popcorn Time client to finish loading.</div>
-          <div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>
+          <!--//<div class="minion-parent"><img class="minion" src="assets/img/minion.png"></div>//-->
         </div>
         
         <!--// SECTION:PLAYER //-->
         <div id="player" class="section hidden">
           <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
-          player section
+          <div class="player-title"></div>
+          <div class="player-arrows">
+            <center>
+              <div class="btn-player-circle">
+                <div class=""><i class="btn-player-pause fa fa-pause"></i></div>
+                <div class="btn-player-up">
+                  <i class="fa fa-volume-up"></i>
+                </div>
+                <div class="btn-player-left pull-left">
+                  <i class="fa fa-backward"></i>
+                </div>
+                <div class="btn-player-right pull-right">
+                  <i class="fa fa-forward"></i>
+                </div>
+                <div class="btn-player-down">
+                  <i class="fa fa-volume-down"></i>
+                </div>
+              </div>
+            </center>
+          </div>
+          <div class="btn-player-mute"><i class="fa fa-volume-off"></i> Toggle Mute</div>
+          <!--// only if in popcorntime app //--><div class="btn-player-fullscreen"><i class="btn-fullscreen-child fa fa-expand"></i> Toggle Fullscreen</div>
+          <div class="btn-player-stream">Stream here <img class="player-icon" src="assets/img/player-external.png"></div>
         </div>
         
         <!--// SECTION:STREAMER //-->
