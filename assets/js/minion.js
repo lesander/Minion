@@ -208,7 +208,9 @@ function responseHandler(request, response) {
 			//}
 			break;
 		case 'getplaying':
-
+				console.debug(response);
+				window.App.isPlaying = response.result.playing;
+				$(".streamer-title").text(response.result.title + " - " + response.result.quality);
 			break;
 		case 'getselection':
 			window.App.subtitles = {};
@@ -259,8 +261,6 @@ function responseHandler(request, response) {
 			else if (window.App.view === "shows-container-contain") {
 				// show info of show.
 				console.debug(response);
-				response.result.imdb_id //IMDb
-				response.result.tvdb_id //TVDb
 				$(".show-detail-title").text(response.result.title);
 				$(".show-detail-year").text(response.result.year + " - " + response.result.status);
 				$(".show-detail-seasons").text(response.result.num_seasons + " Seasons");
@@ -286,6 +286,12 @@ function responseHandler(request, response) {
 				}
 				else {
 					$(".btn-episode-detail-quality").text("480p");
+				}
+				if (response.result.selectedEpisode.watched.watched == true) { // weird object?
+					// PT always returns false.
+					$(".btn-episode-detail-watched").find("i").removeClass("grey");
+					$(".btn-episode-detail-watched").find("i").addClass("white");
+					$(".btn-episode-detail-watched span").text("Watched");
 				}
 				// generate list of available episodes.
 				$(".episodes-list").children().remove();
@@ -393,6 +399,9 @@ function responseHandler(request, response) {
 				$("#streamer-track").attr("src", window.App.settings.zipExtractor + "?key=574380257039257432968&url=" + window.App.subtitles[window.App.selectedSubtitles]);
 			}
 			$("#streamer-link").attr("href", "streamer.html?extractor=" + window.App.settings.zipExtractor + "&lang=" + window.App.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + window.App.subtitles[window.App.selectedSubtitles]);
+			$("#streamer-link").on("click", function() {
+				$("#streamer-video").get(0).pause();
+			});
 			break;
 		case 'toggleplaying':
 
@@ -409,7 +418,11 @@ function responseHandler(request, response) {
 				});
 			}
 			else if (window.App.view === "player") {
-				// ...
+				console.debug(response);
+				if (typeof response.result.episode !== "undefined") {
+					// tv show epsiode
+					// waiting for my PR to get merged.
+				}
 			}
 			break;
 		case 'getplayers':
@@ -476,6 +489,16 @@ function responseHandler(request, response) {
 				else {
 					$(btn).addClass("added");
 					$(".btn-movie-detail-watched span").html('Watched');
+				}
+			}
+			else if (window.App.view === "shows-container-contain") {
+				var btn = $(".btn-episode-detail-watched");
+				$(btn).find("i").toggleClass("grey white");
+				if ($(btn).find("i").hasClass("grey")) {
+					$(".btn-episode-detail-watched span").html('Mark watched');
+				}
+				else {
+					$(".btn-episode-detail-watched span").html('Watched');
 				}
 			}
 			break;
@@ -599,7 +622,9 @@ function viewstackHandler(response) {
 				console.debug("[DEBUG] App.playHere = " + window.App.playHere + ".");
 				if (window.App.playHere) {
 					popcorntimeAPI("getstreamurl");
-					popcorntimeAPI("toggleplaying");
+					if (window.App.isPlaying) {
+						popcorntimeAPI("toggleplaying");
+					}
 					showSection("streamer");
 				}
 				else {
@@ -810,6 +835,9 @@ function registerListeners() {
 			window.App.playHere = false;
 		}
 		popcorntimeAPI("setplayer", [$(this).parent().attr("data-player")]);
+	});
+	$(".btn-episode-detail-watched").on("click", function() {
+		popcorntimeAPI("togglewatched");
 	});
 	// Back button.
 	$(".btn-back").on("click", function() {

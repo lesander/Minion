@@ -113,13 +113,8 @@
                 </button>
                 <ul class="dropdown-menu select-players-episode" role="dropdown-menu"></ul>
               </div>
-              <button type="button" class="btn btn-default btn-minion btn-episode-detail-quality">.</button>
-              <!--//
-              - watch now
-              - player select
-              - quality select
-              - mark seen
-              //-->
+              <button type="button" class="btn btn-default btn-minion btn-episode-detail-quality">.</button> 
+              <a class="btn-episode-detail-watched" href="#"><i class="fa fa-eye grey"></i> <span>Mark watched</span></a>
             </div>
           </div>
         </div>
@@ -205,6 +200,7 @@
         <!--// SECTION:STREAMER //-->
         <div id="streamer" class="section hidden">
           <div class="btn-back btn-stop-stream pull-right"><i class="fa fa-close"></i></div>
+          <div class="streamer-title"></div>
           <video id="streamer-video" src="" autoplay="false" controls crossorigin>
             It seems that your browser doesn't support HTML5 video,
             but don't worry, you can <a href="">save the video</a> and 
