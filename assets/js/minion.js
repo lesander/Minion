@@ -26,6 +26,11 @@ var App = {
 			"username": "",
 			"password": ""
 		},
+		"ui": {
+			"language": "",
+			"startscreen": "",
+			"watcheditems": ""
+		},
 		"interval": 1000,
 		"debug": {
 			"doInterval": true,
@@ -692,11 +697,14 @@ function viewstackHandler(response) {
  *
  * @returns {void}
  */
-function setSettings(address, port, username, password) {
+function setSettings(address, port, username, password, language, startscreen, watcheditems) {
 	window.localStorage.setItem("ip", address);
 	window.localStorage.setItem("port", port);
 	window.localStorage.setItem("username", username);
 	window.localStorage.setItem("password", password);
+	window.localStorage.setItem("language", language);
+	window.localStorage.setItem("startscreen", startscreen);
+	window.localStorage.setItem("watcheditems", watcheditems);
 	console.debug("[DEBUG] Settings were set.");
 	return true;
 }
@@ -711,10 +719,16 @@ function loadSettings() {
 	window.App.settings.connection.port = window.localStorage.getItem("port");
 	window.App.settings.connection.username = window.localStorage.getItem("username");
 	window.App.settings.connection.password = window.localStorage.getItem("password");
+	window.App.settings.ui.language = window.localStorage.getItem("language");
+	window.App.settings.ui.startscreen = window.localStorage.getItem("startscreen");
+	window.App.settings.ui.watcheditems = window.localStorage.getItem("watcheditems");
 	$(".settings-address").val(window.App.settings.connection.ip);
 	$(".settings-port").val(window.App.settings.connection.port);
 	$(".settings-username").val(window.App.settings.connection.username);
 	$(".settings-password").val(window.App.settings.connection.password);
+	$(".settings-language").val(window.App.settings.ui.language);
+	$(".settings-startscreen").val(window.App.settings.ui.startscreen);
+	$(".settings-watcheditems").val(window.App.settings.ui.watcheditems);
 	console.debug("[DEBUG] Settings were reloaded.");
 }
 
@@ -878,7 +892,7 @@ function registerListeners() {
 	});
 	// Save settings handler.
 	$(".btn-save").on("click", function() {
-		setSettings($(".settings-address").val(), $(".settings-port").val(), $(".settings-username").val(), $(".settings-password").val());
+		setSettings($(".settings-address").val(), $(".settings-port").val(), $(".settings-username").val(), $(".settings-password").val(), $(".settings-language").val(), $(".settings-startscreen").val(), $(".settings-watcheditems").val());
 		loadSettings();
 		alert("Settings saved!");
 		location.reload();
