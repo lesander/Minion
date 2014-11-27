@@ -55,6 +55,7 @@ var App = {
 	//"nextpage": "",
 	"currentVolume": 0,
 	"page": 1,
+	"forceView": false,
 	"clientVersion": "",
 	"supportedversions": {
 		0: "0.3.5",
@@ -601,10 +602,33 @@ function viewstackHandler(response) {
 	currentview = response.result.viewstack[response.result.viewstack.length - 1];
 	if (window.App.view !== currentview && $("#settings").is(":visible") === false) {
 		console.debug("[DEBUG] View changed, new view: '" + currentview + "'.");
-		// Remove backdrop background if view=movie-detail
 		// Clear list
 		$("#main-browser .list").children().remove();
-
+		if (window.App.forceView === true && window.App.settings.ui.startscreen !== "") {
+			switch (window.App.settings.ui.startscreen) {
+				case "shows":
+					popcorntimeAPI("showslist");
+					break;
+				case "movies":
+					popcorntimeAPI("movieslist");
+					break;
+				case "":
+					// let PT handle the view.
+					break;
+				case "anime":
+					popcorntimeAPI("animelist");
+					break;
+				case "watchlist":
+					popcorntimeAPI("showwatchlist");
+					break;
+				case "favourites":
+					popcorntimeAPI("showfavourites");
+					break;
+				default:
+					// unknown setting.
+			}
+			window.App.forceView = false;
+		}
 		switch (currentview) {
 			case 'main-browser':
 				showSection("main-browser");
@@ -658,6 +682,7 @@ function viewstackHandler(response) {
 				break;
 			case 'init-container':
 				showSection("loading");
+				window.App.forceView = true;
 				break;
 			case 'app-overlay':
 				showSection("downloading");
