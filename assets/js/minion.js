@@ -1003,8 +1003,9 @@ $(document).ready(function() {
 		console.info("[INFO] Assuming that this is the first session, showing welcome section.");
 		showSection("settings");
 		$(".welcome").removeClass("hidden");
-		//$(".settings-about").addClass("hidden");
-		$(".settings-dev").addClass("hidden");
+		$(".settings-ui").addClass("hidden");
+		$(".btn-reload").addClass("hidden");
+		$(".btn-reset").addClass("hidden");
 		$(".btn-settings-close").addClass("hidden");
 		$(".btn-save").on("click", function() {
 			var tryAddress = $(".settings-address").val();
