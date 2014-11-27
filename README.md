@@ -81,4 +81,4 @@ Todo: move this list to a milestone ;)
 - [ ] Fix mark watched/watched button for tv show episodes.
 - [ ] Better metadata for anime movies and shows.
 - [ ] Fix anime tv show stuff.
-
+- [ ] Fix movies load more function.
