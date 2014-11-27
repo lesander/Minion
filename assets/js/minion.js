@@ -389,7 +389,7 @@ function responseHandler(request, response) {
 			//});
 			break;
 		case 'getstreamurl':
-			if (window.App.playHere == true) {
+			if (window.App.playHere == "true") {
 				$("#streamer-video").attr("src", response.result.streamUrl);
 				$("#streamer-source").attr("src", response.result.streamUrl);
 				//$("#streamer-video").attr("src", response.result.streamUrl);
@@ -626,7 +626,7 @@ function viewstackHandler(response) {
 				window.App.playHere = window.sessionStorage.getItem("playHere");
 				console.debug("[DEBUG] App.playHere = " + window.App.playHere + ".");
 				popcorntimeAPI("getstreamurl");
-				if (window.App.playHere == true) {
+				if (window.App.playHere == "true") {
 					if (window.App.isPlaying) {
 						popcorntimeAPI("toggleplaying");
 					}
