@@ -1048,9 +1048,9 @@ $(document).ready(function() {
 			var tryPassword = $(".settings-password").val();
 			popcorntimeConnect(tryAddress, tryPort, tryUsername, tryPassword);
 			if (App.connected) {
-				alert("Connected to Popcorn Time client!");
 				setSettings(tryAddress, tryPort, tryUsername, tryPassword);
 				loadSettings();
+				alert("Connected to Popcorn Time client!");
 				location.reload();
 			}
 		});
