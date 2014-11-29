@@ -5,6 +5,7 @@
  * Released under the GNU GPL V3 License
  * http://git.io/minion
  */
+
 /*! Make sure that we've got jQuery included. */
 if (typeof jQuery === "undefined") {
 	throw new Error("Popcorn Time Remote requires jQuery.");
@@ -119,7 +120,6 @@ function popcorntimeConnect(address, port, username, password) {
 				console.error("[ERROR] Invalid login credentials.");
 				alert("Invalid login credentials provided.");
 				$(".btn-settings-close").addClass("hidden");
-				//$(".settings-about").addClass("hidden");
 				$(".settings-dev").addClass("hidden");
 				showSection("settings");
 				// show small header?
@@ -130,7 +130,6 @@ function popcorntimeConnect(address, port, username, password) {
 			console.error("[ERROR] Couldn't connect to given address.");
 			alert("Could not connect to " + address + ":" + port + ". Please check your settings and try again.");
 			$(".btn-settings-close").addClass("hidden");
-			//$(".settings-about").addClass("hidden");
 			$(".settings-dev").addClass("hidden");
 			// show small header?
 			showSection("settings");
@@ -207,12 +206,11 @@ function responseHandler(request, response) {
 			viewstackHandler(response);
 			break;
 		case 'getcurrenttab':
-			//console.log(response.result.tab + ' vs ' + window.App.tab.current)
-			//if (response.result.tab !== window.App.tab.current) {
-			setTab(response.result.tab);
-			window.App.tab.old = window.App.tab.current;
-			window.App.tab.current = response.result.tab;
-			//}
+			if (response.result.tab != window.App.tab.current) {
+				setTab(response.result.tab);
+				window.App.tab.old = window.App.tab.current;
+				window.App.tab.current = response.result.tab;
+			}
 			break;
 		case 'getplaying':
 				window.App.isPlaying = response.result.playing;
@@ -392,32 +390,11 @@ function responseHandler(request, response) {
 			}
 			$("#main-browser .list").append('<li class="item"><a class="btn-more btn btn-primary btn-minion">Load More..</a></li>');
 			window.App.page = response.result.page;
-			//$.each(response.result.list, function(key, value) {
-			//response.result.list.image
-			//response.result.list.title
-			//response.result.list.rating
-			//response.result.list.year
-			//response.result.list.watched -> update on click of watch
-			//response.result.list.bookmarked -> update on click of bookmark
-			/*
-			<li class="item>
-				<div class="item-cover" style="background-image: url(' + value.image + ');">
-					<div class="item-overlay"></div>
-				</div>
-				<div class="item-info">
-					<div class="item-title">' + value.title + '</div>
-					<span class="item-year pull-left">' + value.year + '</span>
-					<span class="item-rating pull-right">' + value.rating + '/10</span>
-				</div>
-			</li>
-			*/
-			//});
 			break;
 		case 'getstreamurl':
 			if (window.App.playHere == "true") {
 				$("#streamer-video").attr("src", response.result.streamUrl);
 				$("#streamer-source").attr("src", response.result.streamUrl);
-				//$("#streamer-video").attr("src", response.result.streamUrl);
 				if (window.App.subtitles[window.App.selectedSubtitles] !== undefined) {
 					console.debug("[DEBUG] Selected subtitles: " + window.App.subtitles[window.App.selectedSubtitles]);
 					$("#streamer-track").attr("srclang", window.App.selectedSubtitles);
@@ -429,7 +406,7 @@ function responseHandler(request, response) {
 				});
 			}
 			else {
-				// ...
+				// ... do stuff with the stream here button
 			}
 			break;
 		case 'toggleplaying':
@@ -647,7 +624,6 @@ function viewstackHandler(response) {
 			case 'main-browser':
 				showSection("main-browser");
 				popcorntimeAPI("getcurrentlist");
-				// herp
 				$(".list").on("click", ".btn-more", function() {
 					$(this).hide();
 					popcorntimeAPI("getcurrentlist", [window.App.page + 1]);
