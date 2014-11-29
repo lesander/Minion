@@ -227,32 +227,32 @@ function responseHandler(request, response) {
 				}
 				$(".movie-detail-poster").attr("src", response.result.image);
 				$(".movie-detail-container").attr("style", "background-image: url(" + response.result.backdrop + ");");
-				$(".movie-detail-title").html("" + response.result.title + "");
-				$(".movie-detail-year").html("" + response.result.year + "");
-				$(".movie-detail-rating").html("" + response.result.rating + "/10");
+				$(".movie-detail-title").text("" + response.result.title + "");
+				$(".movie-detail-year").text("" + response.result.year + "");
+				$(".movie-detail-rating").text("" + response.result.rating + "/10");
 				$(".movie-detail-synopsis").html("<p>" + response.result.synopsis + "</p>");
 				$(".expand").removeClass("hidden");
 				$(".movie-detail").addClass("minimised");
 				$(".btn-movie-detail-favourite").removeClass("added");
 				$(".btn-movie-detail-favourite").find("i").removeClass("red");
-				$(".btn-movie-detail-favourite span").html('Bookmark');
+				$(".btn-movie-detail-favourite span").text('Bookmark');
 				$(".btn-movie-detail-watched").removeClass("watched-icon");
 				$(".btn-movie-detail-watched").find("i").removeClass("none watched-icon");
-				$(".btn-movie-detail-watched span").html('Mark watched');
-				$(".movie-detail-genre").html("" + response.result.genre + "");
-				$(".movie-detail-runtime").html("" + response.result.runtime + " min");
+				$(".btn-movie-detail-watched span").text('Mark watched');
+				$(".movie-detail-genre").text("" + response.result.genre + "");
+				$(".movie-detail-runtime").text("" + response.result.runtime + " min");
 				$(".movie-detail-imdb").html('<a href="http://imdb.com/title/' + response.result.imdb_id + '/" target="_blank"><img src="assets/img/imdb.png"></a>');
 
 				if (response.result.bookmarked) {
 					$(".btn-movie-detail-favourite").find("i").toggleClass("none red"); // !
 					$(".btn-movie-detail-favourite").addClass("added");
-					$(".btn-movie-detail-favourite span").html('Bookmarked');
+					$(".btn-movie-detail-favourite span").text('Bookmarked');
 				}
 				if (response.result.watched) {
 					// toggle as watched
 					$(".btn-movie-detail-watched").find("i").toggleClass("none watched-icon");
 					$(".btn-movie-detail-watched").addClass("watched-icon");
-					$(".btn-movie-detail-watched span").html('Watched');
+					$(".btn-movie-detail-watched span").text('Watched');
 				}
 				// check for state of subtitles. -> getselectedsubtitles?
 				// store subtitle zips in array.
@@ -269,7 +269,7 @@ function responseHandler(request, response) {
 				$(".show-detail-seasons").text(response.result.num_seasons + " Seasons");
 				$(".show-detail-runtime").text(response.result.runtime + " min");
 				$(".show-detail-synopsis").html("<p>" + response.result.synopsis + "</p>");
-				$(".show-detail-genre").html(response.result.genres[0]);
+				$(".show-detail-genre").text(response.result.genres[0]);
 				$(".show-detail-rating").text([response.result.rating.percentage/10] + "/10");
 				$(".show-detail-poster").attr("src", response.result.images.poster);
 				$(".show-detail-imdb").html('<a href="http://imdb.com/title/' + response.result.imdb_id + '/" target="_blank"><img src="assets/img/imdb.png"></a>');
@@ -490,21 +490,21 @@ function responseHandler(request, response) {
 				$(btn).find("i").toggleClass("none watched-icon");
 				if ($(btn).hasClass("watched-icon")) {
 					$(btn).removeClass("watched-icon");
-					$(".btn-movie-detail-watched span").html('Mark watched');
+					$(".btn-movie-detail-watched span").text('Mark watched');
 				}
 				else {
 					$(btn).addClass("added");
-					$(".btn-movie-detail-watched span").html('Watched');
+					$(".btn-movie-detail-watched span").text('Watched');
 				}
 			}
 			else if (window.App.view === "shows-container-contain") {
 				var btn = $(".btn-episode-detail-watched");
 				$(btn).find("i").toggleClass("grey white");
 				if ($(btn).find("i").hasClass("grey")) {
-					$(".btn-episode-detail-watched span").html('Mark watched');
+					$(".btn-episode-detail-watched span").text('Mark watched');
 				}
 				else {
-					$(".btn-episode-detail-watched span").html('Watched');
+					$(".btn-episode-detail-watched span").text('Watched');
 				}
 			}
 			break;
@@ -1027,7 +1027,7 @@ $(document).ready(function() {
 	console.log("");
 	console.info("[INFO] Document is ready, starting Minion session.");
 	console.info("[INFO] Minion version " + App.version + ".");
-	$(".nav-title").html("Minion v" + App.version);
+	$(".nav-title").text("Minion v" + App.version);
 	if (App.debug) {
 		console.info("[INFO] Extra debugging is enabled. Brace yourself for tons of debug messages!");
 		console.log("[INFO] Debugging messages can be altered during the session by changing settings in the Objects 'App.debug' and 'App.settings.debug'.");
