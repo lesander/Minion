@@ -61,7 +61,8 @@ var App = {
 	"supportedversions": {
 		0: "0.3.5",
 		1: "733.0.11.0.0",
-		2: "0.3.5-2"
+		2: "0.3.5-2",
+		3: "0.3.5-3"
 	}
 };
 
@@ -186,8 +187,8 @@ function popcorntimeAPI(method, parameters) {
 				// We most likely lost connection.
 				window.App.exit = true;
 				showSection("lostconnection");
-				throw new Error("Lost connection to Popcorn Time client. Stopping interval.");
 				window.App.settings.debug.doInterval = false;
+				throw new Error("Lost connection to Popcorn Time client. Stopping interval.");
 				return;
 			}
 			window.App.errorCount = window.App.errorCount + 1;
@@ -396,7 +397,7 @@ function responseHandler(request, response) {
 			window.App.page = response.result.page;
 			break;
 		case 'getstreamurl':
-			if (window.App.playHere == "true") {
+			if (window.App.playHere == "true" || window.App.playHere == null) {
 				$("#streamer-video").attr("src", response.result.streamUrl);
 				$("#streamer-source").attr("src", response.result.streamUrl);
 				if (window.App.subtitles[window.App.selectedSubtitles] !== undefined) {
@@ -654,7 +655,7 @@ function viewstackHandler(response) {
 				window.App.playHere = window.sessionStorage.getItem("playHere");
 				console.debug("[DEBUG] App.playHere = " + window.App.playHere + ".");
 				popcorntimeAPI("getstreamurl");
-				if (window.App.playHere == "true") {
+				if (window.App.playHere == "true" || window.App.playHere == null) {
 					if (window.App.isPlaying) {
 						popcorntimeAPI("toggleplaying");
 					}
