@@ -120,7 +120,9 @@ function popcorntimeConnect(address, port, username, password) {
 				console.error("[ERROR] Invalid login credentials.");
 				alert("Invalid login credentials provided.");
 				$(".btn-settings-close").addClass("hidden");
-				$(".settings-dev").addClass("hidden");
+				$(".settings-ui").addClass("hidden");
+				$(".btn-reload").addClass("hidden");
+				$(".btn-reset").addClass("hidden");
 				showSection("settings");
 				// show small header?
 				window.App.connected = false;
@@ -130,7 +132,9 @@ function popcorntimeConnect(address, port, username, password) {
 			console.error("[ERROR] Couldn't connect to given address.");
 			alert("Could not connect to " + address + ":" + port + ". Please check your settings and try again.");
 			$(".btn-settings-close").addClass("hidden");
-			$(".settings-dev").addClass("hidden");
+			$(".settings-ui").addClass("hidden");
+			$(".btn-reload").addClass("hidden");
+			$(".btn-reset").addClass("hidden");
 			// show small header?
 			showSection("settings");
 			window.App.connected = false;
