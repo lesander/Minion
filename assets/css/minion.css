@@ -298,6 +298,9 @@ img.minion {
   margin-left: 10px;
   margin-right: 10px;
 }
+.search-term {
+  border-radius: 160px !important;
+}
 
 /*! SECTION:MOVIE-DETAIL */
 .movie-detail-container {
