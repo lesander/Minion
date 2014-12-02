@@ -320,7 +320,7 @@ function responseHandler(request, response) {
 		case 'getcurrentlist':
 			if (typeof response.result === "undefined" || typeof response.result.page === "undefined") {
 				console.error("[ERROR] Client gave us an empty list!");
-				$(".loading-list").removeClass("hidden");
+				//$(".loading-list").removeClass("hidden");
 				break;
 			}
 			else {
@@ -580,6 +580,7 @@ function responseHandler(request, response) {
 		case 'ping':
 		case 'watchtrailer':
 		case 'setselection':
+		case 'clearsearch':
 			// Nothing to do with these requests (yet).
 			console.info("[INFO] Method '" + request.method + "' has no handler.");
 			break;
@@ -693,10 +694,10 @@ function viewstackHandler(response) {
 	else if (currentview === "main-browser") {
 		// For the sake of the active tabs..
 		if (window.App.tab.current === "movies" || window.App.tab.current === "shows" || window.App.tab.current === "anime") {
-			$(".subsection-search-filter").removeClass("hidden");
+			$(".search").removeClass("hidden");
 		}
 		else {
-			$(".subsection-search-filter").addClass("hidden");
+			$(".search").addClass("hidden");
 		}
 		// For the sake of refeshing the list.
 		if (window.App.tab.current === "movies" || window.App.tab.current === "shows" || window.App.tab.current === "anime" || window.App.tab.current === "Watchlist" || window.App.tab.current === "Favorites") {
@@ -810,6 +811,25 @@ function registerListeners() {
 	});
 	$(".btn-favourites").on("click", function() {
 		popcorntimeAPI("showfavourites");
+	});
+	$(".search-term").on("keyup", function(e) {
+		if (e.value == "") {
+			$(".search-remove").addClass("hidden");
+		}
+		else {
+			$(".search-remove").removeClass("hidden");
+		}
+		if (e.keyCode == 13) {
+			popcorntimeAPI("filtersearch", [this.value]);
+		}
+	});
+	$(".search-enter").on("click", function() {
+		popcorntimeAPI("filtersearch", [$(".search-term").val()]);
+	});
+	$(".search-remove").on("click", function() {
+		popcorntimeAPI("clearsearch");
+		$(".search-term").val("");
+		$(".search-remove").addClass("hidden");
 	});
 	// Local settings handlers.
 	$(".btn-settings").on("click", function() {

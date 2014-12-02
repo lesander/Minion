@@ -141,18 +141,30 @@ img.minion {
 .settings-dev {
   margin-top: 50px;
 }
-.settings-form > form > input {
+.settings-form > form > input,
+.search > form input {
   margin-bottom: 10px;
   background-color: #393b3d;
   border: none !important;
   border-radius: 0;
   color: #fff;
 }
-.settings-form > form > input:focus {
+.settings-form > form > input:focus,
+.search > form input:focus {
   border: 0 !important;
   outline: 0;
   -webkit-box-shadow: none;
   box-shadow: none;
+}
+.search > form .input-group {
+  width: 100%;
+}
+.search > form .input-group-addon {
+  background-color: transparent;
+  border: none;
+}
+.search > form a {
+  color: #fff;
 }
 .btn-settings-close {
   font-size: 26px;
@@ -280,6 +292,11 @@ img.minion {
 .watched > .item-info,
 .watched > .item-info > .item-title {
   color: grey !important;
+}
+.search {
+  margin-top: 78px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 /*! SECTION:MOVIE-DETAIL */
