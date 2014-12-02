@@ -57,6 +57,7 @@ var App = {
 	"currentVolume": 0,
 	"page": 1,
 	"forceView": false,
+	"isTrailer": null,
 	"clientVersion": "",
 	"supportedversions": {
 		0: "0.3.5",
@@ -219,8 +220,14 @@ function responseHandler(request, response) {
 			break;
 		case 'getplaying':
 				window.App.isPlaying = response.result.playing;
-				$(".streamer-title").text(response.result.title + " - " + response.result.quality);
-			break;
+				if (response.result.quality != false) {
+					$(".streamer-title").text(response.result.title + " - " + response.result.quality);
+					window.App.isTrailer = false;
+				}
+				else {
+					window.App.isTrailer = true;
+				}
+				break;
 		case 'getselection':
 			window.App.subtitles = {};
 			if (window.App.view === "player") {
@@ -656,7 +663,7 @@ function viewstackHandler(response) {
 				window.App.playHere = window.sessionStorage.getItem("playHere");
 				console.debug("[DEBUG] App.playHere = " + window.App.playHere + ".");
 				popcorntimeAPI("getstreamurl");
-				if (window.App.playHere == "true" || window.App.playHere == null) {
+				if (window.App.playHere == "true" || window.App.playHere == null && window.App.isTrailer == false) {
 					if (window.App.isPlaying) {
 						popcorntimeAPI("toggleplaying");
 					}
