@@ -819,14 +819,15 @@ function registerListeners() {
 	$(".btn-favourites").on("click", function() {
 		popcorntimeAPI("showfavourites");
 	});
-	$(".search-term").on("keyup", function(e) {
+	$(".search-term").on("keydown", function(e) {
 		if (e.value == "") {
 			$(".search-remove").addClass("hidden");
 		}
 		else {
 			$(".search-remove").removeClass("hidden");
 		}
-		if (e.keyCode == 13) {
+		if (e.keyCode == 13 || e.keyCode == 10) {
+			e.preventDefault();
 			popcorntimeAPI("filtersearch", [this.value]);
 		}
 	});
