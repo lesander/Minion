@@ -359,7 +359,7 @@ function responseHandler(request, response) {
 						value.rating = value.rating + "/10";
 					}
 					if (response.result.list[key].watched) {
-						if (window.App.settings.ui.watcheditems == "fade" || window.App.settings.ui.watcheditems == null || window.App.settings.ui.watcheditems == "undefined") {
+						if (window.App.settings.ui.watcheditems == "fade" || window.App.settings.ui.watcheditems == null || window.App.settings.ui.watcheditems == "null" || window.App.settings.ui.watcheditems == "undefined") {
 							$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '</span></div></li>');
 						}
 						else if (window.App.settings.ui.watcheditems == "show") {
