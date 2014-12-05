@@ -311,7 +311,10 @@ function responseHandler(request, response) {
 				// generate list of available episodes.
 				$(".episodes-list").children().remove();
 				$(".episodes-list").append('<option value="">Select Episode</option>');
-				for (var i = 1; i <= response.result.num_seasons; i++) {
+				// The for loop's max is not 'response.result.num_seasons' but '100',
+				// because there are loads of shows with missing seasons.
+				// Note that this is just a dirty fix, not a solution.
+				for (var i = 1; i <= 100 ; i++) {
 					$.each(response.result.episodes, function(key, value) {
 						if (value.season === i) {
 							$(".episodes-list").append('<option value="' + value.season + '-' + value.episode + '"> S' + value.season + ' E' + value.episode + ' ' + value.title + '</option>');
