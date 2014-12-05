@@ -400,6 +400,11 @@ img.minion {
   border-radius: 4px;
   padding: 3px;
 }
+.btn-episode-detail-watched,
+.btn-episode-detail-watched:hover {
+  color: #fff;
+  text-decoration: none;
+}
 .btn-watch:hover,
 .btn-watch:active,
 .btn-watch:focus,
