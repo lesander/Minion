@@ -238,7 +238,9 @@ function responseHandler(request, response) {
 					response.result.image = "assets/img/posterholder.png";
 				}
 				$(".movie-detail-poster").attr("src", response.result.image);
-				$(".movie-detail-container").attr("style", "background-image: url(" + response.result.backdrop + ");");
+				if (typeof response.result.backdrop != "undefined") {
+					$(".movie-detail-container").attr("style", "background-image: url(" + response.result.backdrop + ");");
+				}
 				$(".movie-detail-title").text("" + response.result.title + "");
 				$(".movie-detail-year").text("" + response.result.year + "");
 				$(".movie-detail-rating").text("" + response.result.rating + "/10");
