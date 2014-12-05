@@ -574,6 +574,7 @@ img.minion {
   border-color: #1f375f;
   background: #1f375f;
   border-radius: 3px;
+  width: auto;
 }
 .episodes-list:focus {
   border-color: transparent;
