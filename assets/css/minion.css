@@ -176,6 +176,7 @@ img.minion {
   background: #1f375f;
   border-color: #1f375f;
   border-radius: 3px;
+  margin-bottom: 15px;
 }
 .btn-save:hover {
   background: #225694;
@@ -215,6 +216,9 @@ img.minion {
 .settings-actions {
   margin-top: 20px;
   margin-bottom: 10px;
+}
+.welcome {
+  margin-top: -55px;
 }
 
 /*! SECTION:MAIN-BROWSER */
