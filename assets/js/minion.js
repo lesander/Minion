@@ -214,9 +214,9 @@ function responseHandler(request, response) {
 		case 'getcurrenttab':
 			if (response.result.tab != window.App.tab.current) {
 				setTab(response.result.tab);
-				window.App.tab.old = window.App.tab.current;
 				window.App.tab.current = response.result.tab;
 			}
+			window.App.tab.old = window.App.tab.current;
 			break;
 		case 'getplaying':
 				window.App.isPlaying = response.result.playing;
