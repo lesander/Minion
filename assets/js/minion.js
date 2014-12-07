@@ -449,10 +449,17 @@ function responseHandler(request, response) {
 			}
 			break;
 		case 'getplayers':
+			if (typeof response.result == "undefined" || typeof response.result.players == "undefined") {
+				console.error("[ERROR] Got empty list of players.");
+				noPlayers = true;
+			}
 			if (window.App.view === "movie-detail") {
 				$(".select-players").children().remove();
 				$(".select-players").append('<li role="presentation" class="dropdown-header">Select a device to stream to</li>');
 				$(".select-players").append('<li role="presentation" data-player=""><a role="menuitem" tabindex="-1" class="change-player" href="#movdet-actions">This device <img class="player-icon" src="assets/img/player-external.png"></a></li>');
+				if (noPlayers) {
+					break;
+				}
 				$.each(response.result.players, function(index, value) {
 					$(".select-players").append('<li role="presentation" data-player="' + value.id + '"><a role="menuitem" tabindex="-1" class="change-player" href="#movdet-actions">' + value.name + ' <img class="player-icon" src="assets/img/player-' + value.id + '.png"></a></li>');
 				});
@@ -461,6 +468,9 @@ function responseHandler(request, response) {
 				$(".select-players-episode").children().remove();
 				$(".select-players-episode").append('<li role="presentation" class="dropdown-header">Select a device to stream to</li>');
 				$(".select-players-episode").append('<li role="presentation" data-player=""><a role="menuitem" tabindex="-1" class="change-player-episode" href="#episode-actions">This device <img class="player-icon" src="assets/img/player-external.png"></a></li>');
+				if (noPlayers) {
+					break;
+				}
 				$.each(response.result.players, function(index, value) {
 					$(".select-players-episode").append('<li role="presentation" data-player="' + value.id + '"><a role="menuitem" tabindex="-1" class="change-player-episode" href="#episode-actions">' + value.name + ' <img class="player-icon" src="assets/img/player-' + value.id + '.png"></a></li>');
 				});
