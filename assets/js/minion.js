@@ -347,11 +347,7 @@ function responseHandler(request, response) {
 						popcorntimeAPI("getcurrentlist");
 					}
 				}, 5000);
-				//$(".loading-list").removeClass("hidden");
 				break;
-			}
-			else {
-				$(".loading-list").addClass("hidden");
 			}
 			//if (response.result.page === App.Client.currentPage) { // ???
 				$("#main-browser .list").children().remove();
@@ -712,7 +708,7 @@ function viewstackHandler(response) {
 				}
 				break;
 			case 'settings-container-contain':
-				showSection("");
+				showSection("default");
 				break;
 			case 'about':
 				showSection("about");
@@ -725,7 +721,7 @@ function viewstackHandler(response) {
 				showSection("downloading");
 				break;
 			case 'keyboard':
-				showSection("");
+				showSection("default");
 				break;
 			default:
 				// View changed to unknown.
