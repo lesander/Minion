@@ -443,7 +443,7 @@ function responseHandler(request, response) {
 			App.Player.currentVolume = response.result.volume;
 			break;
 		case 'getsubtitles':
-			if (App.Client.view === "movie-detail") {
+			if (App.Client.view === "movie-detail" && App.Player.isTrailer !== false) {
 				$(".movie-detail-select-subtitles").children().remove();
 				$(".movie-detail-select-subtitles").append('<option value="none">Select subtitles</option>');
 				$.each(response.result.subtitles, function(index, value) {
