@@ -759,13 +759,13 @@ function viewstackHandler(response) {
  * @returns {void}
  */
 function setSettings(address, port, username, password, language, startscreen, watcheditems) {
-	localStorage.setItem("ip", address);
-	localStorage.setItem("port", port);
-	localStorage.setItem("username", username);
-	localStorage.setItem("password", password);
-	localStorage.setItem("language", language);
-	localStorage.setItem("startscreen", startscreen);
-	localStorage.setItem("watcheditems", watcheditems);
+	localStorage.setItem(App.Settings.prefix + "ip", address);
+	localStorage.setItem(App.Settings.prefix + "port", port);
+	localStorage.setItem(App.Settings.prefix + "username", username);
+	localStorage.setItem(App.Settings.prefix + "password", password);
+	localStorage.setItem(App.Settings.prefix + "ui_language", language);
+	localStorage.setItem(App.Settings.prefix + "ui_startscreen", startscreen);
+	localStorage.setItem(App.Settings.prefix + "ui_watcheditems", watcheditems);
 	console.debug("[DEBUG] Settings were set.");
 	return true;
 }
@@ -776,13 +776,13 @@ function setSettings(address, port, username, password, language, startscreen, w
  * @returns {void}
  */
 function loadSettings() {
-	App.Settings.Connection.ip = localStorage.getItem("ip");
-	App.Settings.Connection.port = localStorage.getItem("port");
-	App.Settings.Connection.username = localStorage.getItem("username");
-	App.Settings.Connection.password = localStorage.getItem("password");
-	App.Settings.UI.language = localStorage.getItem("language");
-	App.Settings.UI.startscreen = localStorage.getItem("startscreen");
-	App.Settings.UI.watchedItems = localStorage.getItem("watcheditems");
+	App.Settings.Connection.ip = localStorage.getItem(App.Settings.prefix + "ip");
+	App.Settings.Connection.port = localStorage.getItem(App.Settings.prefix + "port");
+	App.Settings.Connection.username = localStorage.getItem(App.Settings.prefix + "username");
+	App.Settings.Connection.password = localStorage.getItem(App.Settings.prefix + "password");
+	App.Settings.UI.language = localStorage.getItem(App.Settings.prefix + "ui_language");
+	App.Settings.UI.startscreen = localStorage.getItem(App.Settings.prefix + "ui_startscreen");
+	App.Settings.UI.watchedItems = localStorage.getItem(App.Settings.prefix + "ui_watcheditems");
 	$(".settings-address").val(App.Settings.Connection.ip);
 	$(".settings-port").val(App.Settings.Connection.port);
 	$(".settings-username").val(App.Settings.Connection.username);
@@ -817,8 +817,28 @@ function showSection(section) {
  * @returns {bool}
  */
 function hasRequiredStorage() {
-	if (localStorageExists("ip") && localStorageExists("port") && localStorageExists("username") && localStorageExists("password")) {
+	if (localStorageExists(App.Settings.prefix + "ip") && localStorageExists(App.Settings.prefix + "port") && localStorageExists(App.Settings.prefix + "username") && localStorageExists(App.Settings.prefix + "password")) {
 		return true;
+	}
+	else if (localStorageExists("ip") && localStorageExists("port") && localStorageExists("username") && localStorageExists("password")) {
+		// Convert to new format.
+		localStorage.setItem(App.Settings.prefix + "ip", localStorage.getItem("ip"));
+		localStorage.setItem(App.Settings.prefix + "port", localStorage.getItem("port"));
+		localStorage.setItem(App.Settings.prefix + "username", localStorage.getItem("username"));
+		localStorage.setItem(App.Settings.prefix + "password", localStorage.getItem("password"));
+		localStorage.setItem(App.Settings.prefix + "ui_language", localStorage.getItem("language"));
+		localStorage.setItem(App.Settings.prefix + "ui_startscreen", localStorage.getItem("startscreen"));
+		localStorage.setItem(App.Settings.prefix + "ui_watcheditems", localStorage.getItem("watcheditems"));
+		localStorage.removeItem("ip");
+		localStorage.removeItem("port");
+		localStorage.removeItem("username");
+		localStorage.removeItem("password");
+		localStorage.removeItem("language");
+		localStorage.removeItem("startscreen");
+		localStorage.removeItem("watcheditems");
+		alert("Updated local storage to new format.");
+		location.reload();
+		return false;
 	}
 	else {
 		return false;
