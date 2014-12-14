@@ -368,7 +368,7 @@ function responseHandler(request, response) {
 						value.rating = value.rating + "/10";
 					}
 					if (response.result.list[key].watched) {
-						if (App.Settings.UI.watchedItems == "fade" || App.Settings.UI.watchedItems == null || App.Settings.UI.watchedItems == "null" || App.Settings.UI.watchedItems == "undefined") {
+						if (App.Settings.UI.watchedItems == "fade" || App.Settings.UI.watchedItems == null || App.Settings.UI.watchedItems == "" || App.Settings.UI.watchedItems == "undefined") {
 							$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '</span></div></li>');
 						}
 						else if (App.Settings.UI.watchedItems == "show") {
@@ -393,13 +393,13 @@ function responseHandler(request, response) {
 			}
 			else if (response.result.type === "bookmarkedmovie") {
 				// can be movies, shows and anime mixed together.
-				console.debug(response.result.list);
+				//console.debug(response.result.list);
 				$.each(response.result.list, function(key, value) {
 					if (typeof value.rating === "object") {
 						value.rating = [value.rating.percentage/10];
 					}
 					if (response.result.list[key].watched) {
-						if (App.Settings.UI.watchedItems == "fade" || App.Settings.UI.watchedItems == "" || App.Settings.UI.watchedItems == null) {
+						if (App.Settings.UI.watchedItems == "fade" || App.Settings.UI.watchedItems == "" || App.Settings.UI.watchedItems == null || App.Settings.UI.watchedItems == "undefined") {
 							$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
 						}
 						else if (App.Settings.UI.watchedItems == "show") {
