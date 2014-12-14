@@ -16,56 +16,65 @@ if (typeof jQuery === "undefined") {
  * Settings
  ***********/
 
-
 /*! Set App variables. */
 var App = {
-	"version": "0.1.0.pre",
-	"settings": {
-		"connection": {
-			"ip": "",
-			"port": "",
-			"username": "",
-			"password": ""
+	errorCount: 0,
+	exit: false,
+	Settings: {
+		name: "Minion",
+		version: "0.1.0.pre",
+		prefix: "Minion_LS1_",
+		interval: 1000,
+		ZipExtractor: {
+			url: "http://178.62.212.184/zip.php",
+			username: "",
+			password: "574380257039257432968"
 		},
-		"ui": {
-			"language": "",
-			"startscreen": "",
-			"watcheditems": ""
+		Debug: {
+			enabled: true,
+			extraDebug: false,
+			doInterval: true,
+			doConnectDump: false
 		},
-		"interval": 1000,
-		"debug": {
-			"doInterval": true,
-			"doConnectDump": false,
+		Connection: {
+			ip: "",
+			port: "",
+			username: "",
+			password: ""
 		},
-		"zipExtractor": "http://178.62.212.184/zip.php"
+		UI: {
+			language: "",
+			startscreen: "",
+			watchedItems: "",
+			forceView: false
+		}
 	},
-	"connected": false,
-	"view": "",
-	"tab": {
-		"current": "",
-		"old": ""
+	Client: {
+		version: "",
+		connected: false,
+		view: "",
+		page: 1
 	},
-	"langcodes": {},
-	"debug": true,
-	"playHere": true,
-	"selectedSubtitles": "",
-	"subtitles": {},
-	"errorCount": 0,
-	"exit": false,
-	//"pagecount": 1, // 0 or 1?
-	//"nextpage": "",
-	"currentVolume": 0,
-	"page": 1,
-	"forceView": false,
-	"isTrailer": null,
-	"clientVersion": "",
-	"supportedversions": {
-		0: "0.3.5",
-		1: "733.0.11.0.0",
-		2: "0.3.5-2",
-		3: "0.3.5-3"
-	}
-};
+	Player: {
+		playHere: true,
+		selectedSubtitles: "",
+		currentVolume: 0,
+		isTrailer: null,
+		isPlaying: null
+	},
+	Tab: {
+		current: "",
+		old: ""
+	},
+	SupportedVersions: {
+		0: "0.3.5-3", // release
+		1: "0.3.5", // beta
+		2: "0.4.0" // dev
+	},
+	SubtitleLanguages: {},
+	Subtitles: {},
+}
+
 
 /***************!
  * SHOW LOADING
@@ -76,7 +85,7 @@ var App = {
 $("#default").removeClass("hidden");
 
 /*! Load app version into loading screen. */
-$(".version").text("Version " + App.version);
+$(".version").text("Version " + App.Settings.version);
 
 
 /************!
@@ -92,13 +101,13 @@ function popcorntimeConnect(address, port, username, password) {
 	var request = {
 		"id": Math.floor(Math.random() * 100000),
 		"jsonrpc": "2.0",
-		"caller": "PTR-Minion-" + window.App.version,
+		"caller": "PTR-Minion-" + App.Settings.version,
 		"callerLocation": window.location.href,
 		"method": "ping",
 		"params": []
 	};
 	console.debug("[DEBUG] Connecting to " + username + "@" + address + ":" + port + " with password: " + password + "");
-	if (window.App.debug && window.App.settings.debug.doConnectDump) {
+	if (App.Settings.Debug.enabled && App.Settings.Debug.doConnectDump) {
 		console.debug('[EXTRA-DEBUG] Request ' + request.id + ' dump:');
 		console.debug(request);
 	}
@@ -113,10 +122,10 @@ function popcorntimeConnect(address, port, username, password) {
 		success: function(response, textStatus) {
 			if (typeof response.error === "undefined") {
 				console.info("[INFO] Connection established.");
-				window.App.clientVersion = response.result.popcornVersion;
-				console.info("[INFO] PT client has version '" + window.App.clientVersion + "'.");
-				isClientSupported(window.App.clientVersion);
-				window.App.connected = true;
+				App.Client.version = response.result.popcornVersion;
+				console.info("[INFO] PT client has version '" + App.Client.version + "'.");
+				isClientSupported(App.Client.version);
+				App.Client.connected = true;
 			}
 			else {
 				console.error("[ERROR] Invalid login credentials.");
@@ -127,7 +136,7 @@ function popcorntimeConnect(address, port, username, password) {
 				$(".btn-reset").addClass("hidden");
 				showSection("settings");
 				// show small header?
-				window.App.connected = false;
+				App.Client.connected = false;
 			}
 		},
 		error: function(response, textStatus) {
@@ -139,10 +148,10 @@ function popcorntimeConnect(address, port, username, password) {
 			$(".btn-reset").addClass("hidden");
 			// show small header?
 			showSection("settings");
-			window.App.connected = false;
+			App.Client.connected = false;
 		}
 	});
-	if (window.App.connected) {
+	if (App.Client.connected) {
 		return true;
 	}
 	else {
@@ -156,7 +165,7 @@ function popcorntimeConnect(address, port, username, password) {
  * @returns {false/null}
  */
 function popcorntimeAPI(method, parameters) {
-	if (!window.App.connected) {
+	if (!App.Client.connected) {
 		console.warn("[WARNING] Can't call popcorntime API: not connected.");
 		return false;
 	}
@@ -166,33 +175,33 @@ function popcorntimeAPI(method, parameters) {
 	var request = {
 		"id": Math.floor(Math.random() * 100000),
 		"jsonrpc": "2.0",
-		"caller": "PTR-Minion-" + window.App.version,
+		"caller": "PTR-Minion-" + App.Settings.version,
 		"callerLocation": window.location.href,
 		"method": method,
 		"params": parameters
 	};
 	$.ajax({
 		type: "POST",
-		url: 'http://' + window.App.settings.connection.ip + ':' + window.App.settings.connection.port,
+		url: 'http://' + App.Settings.Connection.ip + ':' + App.Settings.Connection.port,
 		data: JSON.stringify(request),
 		async: false,
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader("Authorization", window.btoa(window.App.settings.connection.username + ":" + window.App.settings.connection.password));
+			xhr.setRequestHeader("Authorization", window.btoa(App.Settings.Connection.username + ":" + App.Settings.Connection.password));
 		},
 		success: function(response, textStatus) {
 			responseHandler(request, response);
 		},
 		error: function(response, textStatus) {
 			console.error("[ERROR] Request id " + request.id + " was not successful.");
-			if (window.App.errorCount > 10 && window.App.exit !== true) {
+			if (App.errorCount > 10 && App.exit !== true) {
 				// We most likely lost connection.
-				window.App.exit = true;
+				App.exit = true;
 				showSection("lostconnection");
-				window.App.settings.debug.doInterval = false;
+				App.Settings.Debug.doInterval = false;
 				throw new Error("Lost connection to Popcorn Time client. Stopping interval.");
 				return;
 			}
-			window.App.errorCount = window.App.errorCount + 1;
+			App.errorCount++;
 			console.log(textStatus);
 			console.log(response);
 		}
@@ -212,28 +221,28 @@ function responseHandler(request, response) {
 			viewstackHandler(response);
 			break;
 		case 'getcurrenttab':
-			if (response.result.tab != window.App.tab.current) {
+			if (response.result.tab != App.Tab.current) {
 				setTab(response.result.tab);
 			}
-			window.App.tab.old = window.App.tab.current;
-			window.App.tab.current = response.result.tab;
+			App.Tab.old = App.Tab.current;
+			App.Tab.current = response.result.tab;
 			break;
 		case 'getplaying':
-				window.App.isPlaying = response.result.playing;
+				App.Player.isPlaying = response.result.playing;
 				if (response.result.quality != false) {
 					$(".streamer-title").text(response.result.title + " - " + response.result.quality);
-					window.App.isTrailer = false;
+					App.Player.isTrailer = false;
 				}
 				else {
-					window.App.isTrailer = true;
+					App.Player.isTrailer = true;
 				}
 				break;
 		case 'getselection':
-			window.App.subtitles = {};
-			if (window.App.view === "player") {
+			App.Subtitles = {};
+			if (App.Client.view === "player") {
 
 			}
-			else if (window.App.view === "movie-detail") {
+			else if (App.Client.view === "movie-detail") {
 				if (response.result.image === "images/posterholder.png") {
 					response.result.image = "assets/img/posterholder.png";
 				}
@@ -270,13 +279,13 @@ function responseHandler(request, response) {
 				}
 				// check for state of subtitles. -> getselectedsubtitles?
 				// store subtitle zips in array.
-				window.App.subtitles = response.result.subtitle;
+				App.Subtitles = response.result.subtitle;
 				// check for state of player. -> ?
 
 				$(".btn-movie-detail-quality").text(response.result.quality);
 
 			}
-			else if (window.App.view === "shows-container-contain") {
+			else if (App.Client.view === "shows-container-contain") {
 				// show info of show.
 				$(".show-detail-title").text(response.result.title);
 				$(".show-detail-year").text(response.result.year + " - " + response.result.status);
@@ -326,7 +335,7 @@ function responseHandler(request, response) {
 			}
 			else {
 				// Unknown
-				console.warn("[WARNING] Unknown view '" + window.App.view + "' to set media info for.");
+				console.warn("[WARNING] Unknown view '" + App.Client.view + "' to set media info for.");
 			}
 			break;
 		case 'getcurrentlist':
@@ -338,7 +347,7 @@ function responseHandler(request, response) {
 			else {
 				$(".loading-list").addClass("hidden");
 			}
-			if (response.result.page === window.App.currentpage) {
+			if (response.result.page === App.Client.currentPage) { // ???
 				$("#main-browser .list").children().remove();
 			}
 			if (response.result.type === "movie") {
@@ -359,10 +368,10 @@ function responseHandler(request, response) {
 						value.rating = value.rating + "/10";
 					}
 					if (response.result.list[key].watched) {
-						if (window.App.settings.ui.watcheditems == "fade" || window.App.settings.ui.watcheditems == null || window.App.settings.ui.watcheditems == "null" || window.App.settings.ui.watcheditems == "undefined") {
+						if (App.Settings.UI.watchedItems == "fade" || App.Settings.UI.watchedItems == null || App.Settings.UI.watchedItems == "null" || App.Settings.UI.watchedItems == "undefined") {
 							$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '</span></div></li>');
 						}
-						else if (window.App.settings.ui.watcheditems == "show") {
+						else if (App.Settings.UI.watchedItems == "show") {
 							$("#main-browser .list").append('<li class="item" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '</span></div></li>');
 						}
 					}
@@ -390,10 +399,10 @@ function responseHandler(request, response) {
 						value.rating = [value.rating.percentage/10];
 					}
 					if (response.result.list[key].watched) {
-						if (window.App.settings.ui.watcheditems == "fade" || window.App.settings.ui.watcheditems == "" || window.App.settings.ui.watcheditems == null) {
+						if (App.Settings.UI.watchedItems == "fade" || App.Settings.UI.watchedItems == "" || App.Settings.UI.watchedItems == null) {
 							$("#main-browser .list").append('<li class="item watched" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
 						}
-						else if (window.App.settings.ui.watcheditems == "show") {
+						else if (App.Settings.UI.watchedItems == "show") {
 							$("#main-browser .list").append('<li class="item" data-index="' + key + '"><div class="item-cover" style="background-image: url(' + value.image + ');"><div class="item-overlay"></div></div><div class="item-info"><div class="item-title">' + value.title + '</div><span class="item-year pull-left">' + value.year + '</span><span class="item-rating pull-right">' + value.rating + '/10</span></div></li>');
 						}
 					}
@@ -406,18 +415,19 @@ function responseHandler(request, response) {
 				// Unknown type.
 			}
 			$("#main-browser .list").append('<li class="item"><a class="btn-more btn btn-primary btn-minion">Load More..</a></li>');
-			window.App.page = response.result.page;
+			App.Client.page = response.result.page;
 			break;
 		case 'getstreamurl':
-			if (window.App.playHere == "true" || window.App.playHere == null) {
+			if (App.Player.playHere == "true" || App.Player.playHere == null) {
 				$("#streamer-video").attr("src", response.result.streamUrl);
 				$("#streamer-source").attr("src", response.result.streamUrl);
-				if (window.App.subtitles[window.App.selectedSubtitles] !== undefined) {
-					console.debug("[DEBUG] Selected subtitles: " + window.App.subtitles[window.App.selectedSubtitles]);
-					$("#streamer-track").attr("srclang", window.App.selectedSubtitles);
-					$("#streamer-track").attr("src", window.App.settings.zipExtractor + "?key=574380257039257432968&url=" + window.App.subtitles[window.App.selectedSubtitles]);
+				if (App.Subtitles[App.Player.selectedSubtitles] != undefined) {
+					console.debug("[DEBUG] Selected subtitles: " + App.Subtitles[App.Player.selectedSubtitles]);
+					$("#streamer-track").attr("srclang", App.Player.selectedSubtitles);
+					App.Settings.ZipExtractor.url
+					$("#streamer-track").attr("src", App.Settings.ZipExtractor.url + "?key=" + App.Settings.ZipExtractor.password + "&url=" + App.Subtitles[App.Player.selectedSubtitles]);
 				}
-				$("#streamer-link").attr("href", "streamer.html?extractor=" + window.App.settings.zipExtractor + "&lang=" + window.App.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + window.App.subtitles[window.App.selectedSubtitles]);
+				$("#streamer-link").attr("href", "streamer.html?extractor=" + App.Settings.ZipExtractor.url + "&key=" + App.Settings.ZipExtractor.password + "&lang=" + App.Player.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + App.Subtitles[App.Player.selectedSubtitles]);
 				$("#streamer-link").on("click", function() {
 					$("#streamer-video").get(0).pause();
 				});
@@ -430,17 +440,17 @@ function responseHandler(request, response) {
 			$(".btn-player-pause").toggleClass("fa-play fa-pause");
 			break;
 		case 'volume':
-			window.App.currentVolume = response.result.volume;
+			App.Player.currentVolume = response.result.volume;
 			break;
 		case 'getsubtitles':
-			if (window.App.view === "movie-detail") {
+			if (App.Client.view === "movie-detail") {
 				$(".movie-detail-select-subtitles").children().remove();
 				$(".movie-detail-select-subtitles").append('<option value="none">Select subtitles</option>');
 				$.each(response.result.subtitles, function(index, value) {
-					$(".movie-detail-select-subtitles").append('<option value="' + value + '">' + window.App.langcodes[value] + '</option>');
+					$(".movie-detail-select-subtitles").append('<option value="' + value + '">' + App.SubtitleLanguages[value] + '</option>');
 				});
 			}
-			else if (window.App.view === "player") {
+			else if (App.Client.view === "player") {
 				console.debug(response);
 				if (typeof response.result.episode !== "undefined") {
 					// tv show epsiode
@@ -453,7 +463,7 @@ function responseHandler(request, response) {
 				console.error("[ERROR] Got empty list of players.");
 				noPlayers = true;
 			}
-			if (window.App.view === "movie-detail") {
+			if (App.Client.view === "movie-detail") {
 				$(".select-players").children().remove();
 				$(".select-players").append('<li role="presentation" class="dropdown-header">Select a device to stream to</li>');
 				$(".select-players").append('<li role="presentation" data-player=""><a role="menuitem" tabindex="-1" class="change-player" href="#movdet-actions">This device <img class="player-icon" src="assets/img/player-external.png"></a></li>');
@@ -464,7 +474,7 @@ function responseHandler(request, response) {
 					$(".select-players").append('<li role="presentation" data-player="' + value.id + '"><a role="menuitem" tabindex="-1" class="change-player" href="#movdet-actions">' + value.name + ' <img class="player-icon" src="assets/img/player-' + value.id + '.png"></a></li>');
 				});
 			}
-			else if (window.App.view === "shows-container-contain") {
+			else if (App.Client.view === "shows-container-contain") {
 				$(".select-players-episode").children().remove();
 				$(".select-players-episode").append('<li role="presentation" class="dropdown-header">Select a device to stream to</li>');
 				$(".select-players-episode").append('<li role="presentation" data-player=""><a role="menuitem" tabindex="-1" class="change-player-episode" href="#episode-actions">This device <img class="player-icon" src="assets/img/player-external.png"></a></li>');
@@ -486,7 +496,7 @@ function responseHandler(request, response) {
 
 			break;
 		case 'togglefavourite':
-			if (window.App.view === "movie-detail") {
+			if (App.Client.view === "movie-detail") {
 				var btn = $(".btn-movie-detail-favourite");
 				$(btn).find("i").toggleClass("none red");
 				if ($(btn).hasClass("added")) {
@@ -498,7 +508,7 @@ function responseHandler(request, response) {
 					$(".btn-movie-detail-favourite span").text("Bookmarked");
 				}
 			}
-			else if (window.App.view === "shows-container-contain") {
+			else if (App.Client.view === "shows-container-contain") {
 				var btn = $(".btn-show-detail-favourite");
 				$(btn).find("i").toggleClass("non red");
 				if ($(btn).hasClass("added")) {
@@ -512,7 +522,7 @@ function responseHandler(request, response) {
 			}
 			break;
 		case 'togglewatched':
-			if (window.App.view === "movie-detail") {
+			if (App.Client.view === "movie-detail") {
 				var btn = $(".btn-movie-detail-watched");
 				$(btn).find("i").toggleClass("none watched-icon");
 				if ($(btn).hasClass("watched-icon")) {
@@ -524,7 +534,7 @@ function responseHandler(request, response) {
 					$(".btn-movie-detail-watched span").text('Watched');
 				}
 			}
-			else if (window.App.view === "shows-container-contain") {
+			else if (App.Client.view === "shows-container-contain") {
 				var btn = $(".btn-episode-detail-watched");
 				$(btn).find("i").toggleClass("grey white");
 				if ($(btn).find("i").hasClass("grey")) {
@@ -536,19 +546,19 @@ function responseHandler(request, response) {
 			}
 			break;
 		case 'setsubtitle':
-			if (window.App.view === "movie-detail") {
+			if (App.Client.view === "movie-detail") {
 				$(".movie-detail-select-subtitles").val(request.params);
 			}
 			break;
 		case 'setplayer':
-			if (window.App.view === "movie-detail") {
+			if (App.Client.view === "movie-detail") {
 				$('[data-player]').removeClass("player-selected");
 				$('[data-player="' + request.params + '"]').addClass("player-selected");
 				var iconsrc = $('[data-player="' + request.params + '"] > a > img').attr("src");
 				$(".btn-players-caret > .caret-icon").removeClass("caret");
 				$(".btn-players-caret > .caret-icon").html('<img class="player-icon-main" src="' + iconsrc + '"> <i class="caret"></i>');
 			}
-			else if (window.App.view === "shows-container-contain") {
+			else if (App.Client.view === "shows-container-contain") {
 				$('[data-player]').removeClass("player-selected-episode");
 				$('[data-player="' + request.params + '"]').addClass("player-selected-episode");
 				var iconsrc = $('[data-player="' + request.params + '"] > a > img').attr("src");
@@ -558,7 +568,7 @@ function responseHandler(request, response) {
 			//window.App.player = request.params;
 			break;
 		case 'togglequality':
-			if (window.App.view === "movie-detail") {
+			if (App.Client.view === "movie-detail") {
 				var btn = $(".btn-movie-detail-quality");
 				if (btn.text() === "1080p") {
 					btn.text("720p");
@@ -567,7 +577,7 @@ function responseHandler(request, response) {
 					btn.text("1080p");
 				}
 			}
-			else if (window.App.view === "shows-container-contain") {
+			else if (App.Client.view === "shows-container-contain") {
 				var btn = $(".btn-episode-detail-quality");
 				if (btn.text() === "720p") {
 					btn.text("480p");
@@ -619,12 +629,12 @@ function responseHandler(request, response) {
  */
 function viewstackHandler(response) {
 	currentview = response.result.viewstack[response.result.viewstack.length - 1];
-	if (window.App.view !== currentview && $("#settings").is(":visible") === false) {
+	if (App.Client.view !== currentview && $("#settings").is(":visible") === false) {
 		console.debug("[DEBUG] View changed, new view: '" + currentview + "'.");
 		// Clear list
 		$("#main-browser .list").children().remove();
-		if (window.App.forceView === true && window.App.settings.ui.startscreen !== "") {
-			switch (window.App.settings.ui.startscreen) {
+		if (App.Settings.UI.forceView === true && App.Settings.UI.startscreen !== "") {
+			switch (App.Settings.UI.startscreen) {
 				case "shows":
 					popcorntimeAPI("showslist");
 					break;
@@ -646,7 +656,7 @@ function viewstackHandler(response) {
 				default:
 					// unknown setting.
 			}
-			window.App.forceView = false;
+			App.Settings.UI.forceView = false;
 		}
 		switch (currentview) {
 			case 'main-browser':
@@ -654,20 +664,20 @@ function viewstackHandler(response) {
 				popcorntimeAPI("getcurrentlist");
 				$(".list").on("click", ".btn-more", function() {
 					$(this).hide();
-					popcorntimeAPI("getcurrentlist", [window.App.page + 1]);
+					popcorntimeAPI("getcurrentlist", [App.Client.page + 1]);
 				});
 				//popcorntimeAPI("getgenres");
 				//popcorntimeAPI("getsorters");
 				break;
 			case 'shows-container-contain':
 				showSection("shows-container");
-				window.App.view = currentview;
+				App.Client.view = currentview;
 				popcorntimeAPI("getselection");
 				popcorntimeAPI("getplayers");
 				break;
 			case 'movie-detail':
 				showSection("movie-detail");
-				window.App.view = currentview;
+				App.Client.view = currentview;
 				popcorntimeAPI("getplayers");
 				popcorntimeAPI("getsubtitles");
 				popcorntimeAPI("getselection");
@@ -675,18 +685,18 @@ function viewstackHandler(response) {
 			case 'player':
 				popcorntimeAPI("getplaying");
 				popcorntimeAPI("getsubtitles");
-				window.App.playHere = window.sessionStorage.getItem("playHere");
-				console.debug("[DEBUG] App.playHere = " + window.App.playHere + ".");
+				App.Player.playHere = sessionStorage.getItem("playHere");
+				console.debug("[DEBUG] App.Player.playHere = " + App.Player.playHere + ".");
 				popcorntimeAPI("getstreamurl");
-				if (window.App.playHere == "true" || window.App.playHere == null && window.App.isTrailer == false) {
-					if (window.App.isPlaying) {
+				if (App.Player.playHere == "true" || App.Player.playHere == null && App.Player.isTrailer == false) {
+					if (App.Player.isPlaying) {
 						popcorntimeAPI("toggleplaying");
 					}
 					showSection("streamer");
 				}
 				else {
 					showSection("player");
-					if (window.App.isPlaying == false) {
+					if (App.Player.isPlaying == false) {
 						$(".btn-player-pause").removeClass("fa fa-pause");
 						$(".btn-player-pause").addClass("fa fa-play")
 					}
@@ -700,7 +710,7 @@ function viewstackHandler(response) {
 				break;
 			case 'init-container':
 				showSection("loading");
-				window.App.forceView = true;
+				App.Settings.UI.forceView = true;
 				break;
 			case 'app-overlay':
 				showSection("downloading");
@@ -711,19 +721,19 @@ function viewstackHandler(response) {
 			default:
 				// View changed to unknown.
 		}
-		window.App.view = currentview;
+		App.Client.view = currentview;
 	}
 	else if (currentview === "main-browser") {
 		// For the sake of the active tabs..
-		if (window.App.tab.current === "movies" || window.App.tab.current === "shows" || window.App.tab.current === "anime") {
+		if (App.Tab.current === "movies" || App.Tab.current === "shows" || App.Tab.current === "anime") {
 			$(".search").removeClass("hidden");
 		}
 		else {
 			$(".search").addClass("hidden");
 		}
 		// For the sake of refeshing the list.
-		if (window.App.tab.current === "movies" || window.App.tab.current === "shows" || window.App.tab.current === "anime" || window.App.tab.current === "Watchlist" || window.App.tab.current === "Favorites") {
-			if (window.App.tab.current !== window.App.tab.old) {
+		if (App.Tab.current === "movies" || App.Tab.current === "shows" || App.Tab.current === "anime" || App.Tab.current === "Watchlist" || App.Tab.current === "Favorites") {
+			if (App.Tab.current !== App.Tab.old) {
 				// Clear the list.
 				$("#main-browser .list").children().remove();
 				// Update the list.
@@ -746,13 +756,13 @@ function viewstackHandler(response) {
  * @returns {void}
  */
 function setSettings(address, port, username, password, language, startscreen, watcheditems) {
-	window.localStorage.setItem("ip", address);
-	window.localStorage.setItem("port", port);
-	window.localStorage.setItem("username", username);
-	window.localStorage.setItem("password", password);
-	window.localStorage.setItem("language", language);
-	window.localStorage.setItem("startscreen", startscreen);
-	window.localStorage.setItem("watcheditems", watcheditems);
+	localStorage.setItem("ip", address);
+	localStorage.setItem("port", port);
+	localStorage.setItem("username", username);
+	localStorage.setItem("password", password);
+	localStorage.setItem("language", language);
+	localStorage.setItem("startscreen", startscreen);
+	localStorage.setItem("watcheditems", watcheditems);
 	console.debug("[DEBUG] Settings were set.");
 	return true;
 }
@@ -763,20 +773,20 @@ function setSettings(address, port, username, password, language, startscreen, w
  * @returns {void}
  */
 function loadSettings() {
-	window.App.settings.connection.ip = window.localStorage.getItem("ip");
-	window.App.settings.connection.port = window.localStorage.getItem("port");
-	window.App.settings.connection.username = window.localStorage.getItem("username");
-	window.App.settings.connection.password = window.localStorage.getItem("password");
-	window.App.settings.ui.language = window.localStorage.getItem("language");
-	window.App.settings.ui.startscreen = window.localStorage.getItem("startscreen");
-	window.App.settings.ui.watcheditems = window.localStorage.getItem("watcheditems");
-	$(".settings-address").val(window.App.settings.connection.ip);
-	$(".settings-port").val(window.App.settings.connection.port);
-	$(".settings-username").val(window.App.settings.connection.username);
-	$(".settings-password").val(window.App.settings.connection.password);
-	$(".settings-language").val(window.App.settings.ui.language);
-	$(".settings-startscreen").val(window.App.settings.ui.startscreen);
-	$(".settings-watcheditems").val(window.App.settings.ui.watcheditems);
+	App.Settings.Connection.ip = localStorage.getItem("ip");
+	App.Settings.Connection.port = localStorage.getItem("port");
+	App.Settings.Connection.username = localStorage.getItem("username");
+	App.Settings.Connection.password = localStorage.getItem("password");
+	App.Settings.UI.language = localStorage.getItem("language");
+	App.Settings.UI.startscreen = localStorage.getItem("startscreen");
+	App.Settings.UI.watchedItems = localStorage.getItem("watcheditems");
+	$(".settings-address").val(App.Settings.Connection.ip);
+	$(".settings-port").val(App.Settings.Connection.port);
+	$(".settings-username").val(App.Settings.Connection.username);
+	$(".settings-password").val(App.Settings.Connection.password);
+	$(".settings-language").val(App.Settings.UI.language);
+	$(".settings-startscreen").val(App.Settings.UI.startscreen);
+	$(".settings-watcheditems").val(App.Settings.UI.watchedItems);
 	console.debug("[DEBUG] Settings were reloaded.");
 }
 
@@ -859,7 +869,7 @@ function registerListeners() {
 		showSection("settings");
 	});
 	$(".btn-settings-close").on("click", function() {
-		showSection(App.view);
+		showSection(App.Client.view);
 	});
 	// Item click handler.
 	$(".list").on("click", ".item", function() {
@@ -881,17 +891,17 @@ function registerListeners() {
 		popcorntimeAPI("setsubtitle", [this.value]);
 		$(".movie-detail-select-subtitles > option > span").remove();
 		$('option[value="' + this.value + '"]').prepend("<span>Selected: </span>");
-		App.selectedSubtitles = this.value;
+		App.Player.selectedSubtitles = this.value;
 	});
 	$(".select-players").on("click", ".change-player", function() {
 		if ($(this).parent().attr("data-player") === "") {
 			// This device is selected.
-			window.App.playHere = true;
-			window.sessionStorage.setItem("playHere", "true");
+			App.Player.playHere = true;
+			sessionStorage.setItem("playHere", "true");
 		}
 		else {
-			window.App.playHere = false;
-			window.sessionStorage.setItem("playHere", "false");
+			App.Player.playHere = false;
+			sessionStorage.setItem("playHere", "false");
 		}
 		popcorntimeAPI("setplayer", [$(this).parent().attr("data-player")]);
 	});
@@ -922,12 +932,12 @@ function registerListeners() {
 	});
 	$(".select-players-episode").on("click", ".change-player-episode", function() {
 		if ($(this).parent().attr("data-player") === "") {
-			window.App.playHere = true;
-			window.sessionStorage.setItem("playHere", "true");
+			App.Player.playHere = true;
+			sessionStorage.setItem("playHere", "true");
 		}
 		else {
-			window.App.playHere = false;
-			window.sessionStorage.setItem("playHere", "false");
+			App.Player.playHere = false;
+			sessionStorage.setItem("playHere", "false");
 		}
 		popcorntimeAPI("setplayer", [$(this).parent().attr("data-player")]);
 	});
@@ -947,10 +957,10 @@ function registerListeners() {
 		popcorntimeAPI("toggleplaying");
 	});
 	$(".btn-player-up").on("click", function() {
-		popcorntimeAPI("volume", [window.App.currentVolume + 0.1]);
+		popcorntimeAPI("volume", [App.Player.currentVolume + 0.1]);
 	});
 	$(".btn-player-down").on("click", function() {
-		popcorntimeAPI("volume", [window.App.currentVolume - 0.1]);
+		popcorntimeAPI("volume", [App.Player.currentVolume - 0.1]);
 	});
 	$(".btn-player-left").on("click", function() {
 		popcorntimeAPI("seek", [-10]);
@@ -969,7 +979,7 @@ function registerListeners() {
 	$(".btn-reset").on("click", function() {
 		if (window.confirm("Are you sure you want to reset the App's settings?")) {
 			console.info("[INFO] Resetting localStorage..");
-			window.localStorage.clear();
+			localStorage.clear();
 			location.reload();
 		}
 	});
@@ -1020,7 +1030,7 @@ function localStorageExists(key) {
 		console.warn("[WARNING] localStorageExists got empty 'key' parameter.");
 		return false;
 	}
-	else if (window.localStorage.getItem(key) !== null) {
+	else if (localStorage.getItem(key) !== null) {
 		return true;
 	}
 	else {
@@ -1037,7 +1047,7 @@ function localStorageExists(key) {
  */
 function isClientSupported(version) {
 	found = null;
-	$.each(App.supportedversions, function(key, value) {
+	$.each(App.SupportedVersions, function(key, value) {
 		if (value === version) {
 			found = true;
 		}
@@ -1061,24 +1071,24 @@ function isClientSupported(version) {
 
 /*! Load language codes json file. */
 $.getJSON("assets/js/langcodes.json", function(json) {
-	window.App.langcodes = json;
+	App.SubtitleLanguages = json;
 });
 
 /*! On document ready, get started. */
 $(document).ready(function() {
 	console.log('  __  __ _       _             \n |  \\/  (_)     (_)            \n | \\  / |_ _ __  _  ___  _ __  \n | |\\/| | | \'_ \\| |/ _ \\| \'_ \\ \n | |  | | | | | | | (_) | | | |\n |_|  |_|_|_| |_|_|\\___/|_| |_|\n                               ');
-	console.log(" Minion version " + App.version + ".");
+	console.log(" Minion version " + App.Settings.version + ".");
 	console.log(" Developed by the PTR Team.");
 	console.log(" Copyright (c) 2014, the PTR Team.");
 	console.log(" Released under the GNU GPL V3 License.");
 	console.log(" http://git.io/minion");
 	console.log("");
 	console.info("[INFO] Document is ready, starting Minion session.");
-	console.info("[INFO] Minion version " + App.version + ".");
-	$(".nav-title").text("Minion v" + App.version);
-	if (App.debug) {
+	console.info("[INFO] Minion version " + App.Settings.version + ".");
+	$(".nav-title").text("Minion v" + App.Settings.version);
+	if (App.Settings.Debug.enabled) {
 		console.info("[INFO] Extra debugging is enabled. Brace yourself for tons of debug messages!");
-		console.log("[INFO] Debugging messages can be altered during the session by changing settings in the Objects 'App.debug' and 'App.settings.debug'.");
+		console.log("[INFO] Debugging messages can be altered during the session by changing settings in the Object 'App.Settings.Debug'.");
 	}
 	if (!hasRequiredStorage()) {
 		console.info("[INFO] Could not find all required localStorage.");
@@ -1095,7 +1105,7 @@ $(document).ready(function() {
 			var tryUsername = $(".settings-username").val();
 			var tryPassword = $(".settings-password").val();
 			popcorntimeConnect(tryAddress, tryPort, tryUsername, tryPassword);
-			if (App.connected) {
+			if (App.Client.connected) {
 				setSettings(tryAddress, tryPort, tryUsername, tryPassword);
 				loadSettings();
 				alert("Connected to Popcorn Time client!");
@@ -1106,14 +1116,14 @@ $(document).ready(function() {
 	else {
 		loadSettings();
 		registerListeners();
-		popcorntimeConnect(App.settings.connection.ip, App.settings.connection.port, App.settings.connection.username, App.settings.connection.password);
-		if (App.connected) {
+		popcorntimeConnect(App.Settings.Connection.ip, App.Settings.Connection.port, App.Settings.Connection.username, App.Settings.Connection.password);
+		if (App.Client.connected) {
 			setInterval(function() {
-				if (App.settings.debug.doInterval) {
+				if (App.Settings.Debug.doInterval) {
 					popcorntimeAPI("getviewstack");
 					popcorntimeAPI("getcurrenttab");
 				}
-			}, App.settings.interval);
+			}, App.Settings.interval);
 		}
 	}
 });
