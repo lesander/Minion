@@ -8,7 +8,7 @@
 
 /*! Make sure that we've got jQuery included. */
 if (typeof jQuery === "undefined") {
-	throw new Error("Popcorn Time Remote requires jQuery.");
+	throw new Error("Minion.js requires jQuery.");
 }
 
 
