@@ -463,6 +463,9 @@ function responseHandler(request, response) {
 				console.error("[ERROR] Got empty list of players.");
 				noPlayers = true;
 			}
+			else {
+				noPlayers = false;
+			}
 			if (App.Client.view === "movie-detail") {
 				$(".select-players").children().remove();
 				$(".select-players").append('<li role="presentation" class="dropdown-header">Select a device to stream to</li>');
