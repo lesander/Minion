@@ -341,15 +341,21 @@ function responseHandler(request, response) {
 		case 'getcurrentlist':
 			if (typeof response.result === "undefined" || typeof response.result.page === "undefined") {
 				console.error("[ERROR] Client gave us an empty list!");
+				// try again in 5s.
+				setTimeout(function() {
+					if (App.Client.view === "main-browser") {
+						popcorntimeAPI("getcurrentlist");
+					}
+				}, 5000);
 				//$(".loading-list").removeClass("hidden");
 				break;
 			}
 			else {
 				$(".loading-list").addClass("hidden");
 			}
-			if (response.result.page === App.Client.currentPage) { // ???
+			//if (response.result.page === App.Client.currentPage) { // ???
 				$("#main-browser .list").children().remove();
-			}
+			//}
 			if (response.result.type === "movie") {
 				$.each(response.result.list, function(key, value) {
 					if (typeof value.image == "undefined") {
@@ -495,8 +501,9 @@ function responseHandler(request, response) {
 		case 'getsorters':
 
 			break;
+		case 'filtersearch':
 		case 'clearsearch':
-
+			popcorntimeAPI("getcurrentlist");
 			break;
 		case 'togglefavourite':
 			if (App.Client.view === "movie-detail") {
@@ -615,7 +622,6 @@ function responseHandler(request, response) {
 		case 'ping':
 		case 'watchtrailer':
 		case 'setselection':
-		case 'clearsearch':
 			// Nothing to do with these requests (yet).
 			console.info("[INFO] Method '" + request.method + "' has no handler.");
 			break;
