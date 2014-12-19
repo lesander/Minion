@@ -12,10 +12,12 @@ If you think that you found a bug, encountered a problem or have an idea that co
 
 <img src="http://lesander.nl/i/minion.gif" alt="Minion on a simulated iPhone 5" title="Minion on a simulated iPhone 5" align="right" height="320" hspace="1">
 
-There are three quick start options available:
+To get started with Minion, choose one of the options below.
 - [Use the live version](http://live.popcorntimeremote.com).
 - [Download the latest release](https://github.com/lesander/minion/releases/latest).
 - Clone the repository: `git clone https://github.com/ptrteam/minion.git`.
+
+Minion won't work correctly in `file://` mode, instead use a (local) [Apache](https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu) or [Nginx](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-14-04-lts) webserver.
 
 When you run into a problem, please check the issue tracker if someone has had the same problem. If your problem has not been addressed yet, [please open a new issue](https://github.com/ptrteam/minion/issues/new).
 
