@@ -12,8 +12,11 @@ Following these guidelines helps to communicate that you respect the time of the
 A bug is a demonstrable problem that is caused by the code in the repository. Good bug reports are extremely helpful, so thanks!
 
 Guidelines for bug reports:
+
 1. **Use the GitHub issue search** &mdash; check if the issue has not already been reported.
+
 2. **Screenshot the console output** &mdash; this gives us alot of information to help fix the problem.
+
 3. **Describe the situation** &mdash; tell us what you were doing when the problem occured, what you expected to happen and what actually happened.
 
 A good bug report shouldn't leave others needing to chase you up for more information. Please try to be as detailed as possible in your report. What is your environment? What steps will reproduce the issue? What browser(s) and OS experience the problem? Do other browsers show the bug differently? All these details will help people to fix any potential bugs.
@@ -63,7 +66,6 @@ project (indentation, accurate comments, etc.) and any other requirements
 Adhering to the following process is the best way to get your work included in the project:
 
 1. [Fork](http://help.github.com/fork-a-repo/) the project and clone that fork.
-
 ```bash
 git clone https://github.com/<your-username>/minion.git
 cd minion
@@ -71,14 +73,12 @@ git remote add upstream https://github.com/ptrteam/minion.git
 ```
 
 2. If you cloned a while ago, get the latest changes from upstream:
-
 ```bash
 git checkout master
 git pull upstream master
 ```
 
 3. Create a new topic branch (off the main project development branch) to contain your feature, change, or fix:
-
 ```bash
 git checkout -b <topic-branch-name>
 ```
@@ -86,13 +86,11 @@ git checkout -b <topic-branch-name>
 4. Commit your changes in logical chunks. Please adhere to these [git commit message guidelines](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html) or your code is unlikely be merged into the main project. Use Git's [interactive rebase](https://help.github.com/articles/interactive-rebase) feature to tidy up your commits before making them public.
 
 5. Locally merge (or rebase) the upstream development branch into your topic branch:
-
 ```bash
 git pull [--rebase] upstream master
 ```
 
 6. Push your topic branch up to your fork:
-
 ```bash
 git push origin <topic-branch-name>
 ```
