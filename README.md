@@ -6,7 +6,7 @@ Welcome to the **Minion** project! Control your Popcorn Time client on your phon
 
 This readme is the main source of documentation for everyone working with (or contributing to) the Minion project.
 
-If you think that you found a bug, encountered a problem or have an idea that could help out the project, please search for your issue or feature in [the issue tracker](https://github.com/ptrteam/minion/issues) before posting. Once you are sure that no-one posted your issue before, read [the contributing guidelines]() and then [create a new issue](https://github.com/ptrteam/minion/issues/new) or [pull request](https://github.com/ptrteam/minion/compare).
+If you think that you found a bug, encountered a problem or have an idea that could help out the project, please search for your issue or feature in [the issue tracker](https://github.com/ptrteam/minion/issues) before posting. Once you are sure that no-one posted your issue before, read [the contributing guidelines](CONTRIBUTING.md) and then [create a new issue](https://github.com/ptrteam/minion/issues/new) or [pull request](https://github.com/ptrteam/minion/compare).
 
 ## Quick start
 
