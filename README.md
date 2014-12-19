@@ -8,7 +8,7 @@ This readme is the main source of documentation for everyone working with (or co
 
 If you think that you found a bug, encountered a problem or have an idea that could help out the project, please search for your issue or feature in [the issue tracker](https://github.com/ptrteam/minion/issues) before posting. Once you are sure that no-one posted your issue before, read [the contributing guidelines]() and then [create a new issue](https://github.com/lesander/minion/issues/new) or [pull request](https://github.com/lesander/minion/compare).
 
-<img src="" alt="Minion on an iPhone 5" title="" align="middle" hspace="10">
+<img src="http://lesander.nl/i/minion.gif" alt="Minion on an iPhone 5" title="" align="middle" hspace="10">
 
 ## Quick start
 
