@@ -27,8 +27,8 @@ var App = {
 		interval: 1000,
 		ZipExtractor: {
 			url: "http://178.62.212.184/zip.php",
-			username: "",
-			password: "574380257039257432968"
+			username: "demo",
+			password: "demo"
 		},
 		Debug: {
 			enabled: true,
@@ -426,10 +426,9 @@ function responseHandler(request, response) {
 				if (App.Subtitles[App.Player.selectedSubtitles] != undefined) {
 					console.debug("[DEBUG] Selected subtitles: " + App.Subtitles[App.Player.selectedSubtitles]);
 					$("#streamer-track").attr("srclang", App.Player.selectedSubtitles);
-					App.Settings.ZipExtractor.url
-					$("#streamer-track").attr("src", App.Settings.ZipExtractor.url + "?key=" + App.Settings.ZipExtractor.password + "&url=" + App.Subtitles[App.Player.selectedSubtitles]);
+					$("#streamer-track").attr("src", App.Settings.ZipExtractor.url + "?username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&url=" + App.Subtitles[App.Player.selectedSubtitles]);
 				}
-				$("#streamer-link").attr("href", "streamer.html?extractor=" + App.Settings.ZipExtractor.url + "&key=" + App.Settings.ZipExtractor.password + "&lang=" + App.Player.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + App.Subtitles[App.Player.selectedSubtitles]);
+				$("#streamer-link").attr("href", "streamer.html?extractor=" + App.Settings.ZipExtractor.url + "&username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&lang=" + App.Player.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + App.Subtitles[App.Player.selectedSubtitles]);
 				$("#streamer-link").on("click", function() {
 					$("#streamer-video").get(0).pause();
 				});

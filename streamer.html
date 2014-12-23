@@ -33,7 +33,7 @@
         $("#streamer-video > a").attr("href", data.src);
         $("#streamer-track").attr("srclang", data.lang);
         if (data.subs !== "undefined") {
-          $("#streamer-track").attr("src", data.extractor + "?key=574380257039257432968&url=" + data.subs);
+          $("#streamer-track").attr("src", data.extractor + "?username=" + data.username + "&password=" + data.password + "&url=" + data.subs);
         }
         console.info("[INFO] streamer.html: video data injected.");
       </script>
