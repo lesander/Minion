@@ -39,7 +39,9 @@ For transparency into our release cycle and in striving to maintain backward com
 
 ## Copyright
 
-Code and documentation copyright 2014 The PTR Team. Code released under the GNU GPL v3 license. Documentation released under Creative Commons. Logo created by [Ankit Joshi](http://joshiankit.com), &copy; 2013-2014. All rights reserved.
+Code and documentation copyright 2014 The PTR Team. Code released under the GNU GPL v3 license. Documentation released under Creative Commons.
+
+Logo created by [Ankit Joshi](http://joshiankit.com), &copy; 2013-2014. All rights reserved.
 
 ## License
 
