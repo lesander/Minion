@@ -266,7 +266,9 @@
         <!--// SECTION:STREAMER //-->
         <div id="streamer" class="section hidden">
           <div class="btn-back btn-stop-stream pull-right"><i class="fa fa-close"></i></div>
-          <div class="streamer-title"></div>
+          <div class="streamer-title pull-left"></div>
+          <select class="streamer-select-subtitles form-control pull-left"></select>
+          <a href="#" class="btn btn-link pull-left" id="streamer-link" target="_blank">Open in browser</a>
           <video id="streamer-video" src="" autoplay="false" controls crossorigin>
             It seems that your browser doesn't support HTML5 video,
             but don't worry, you can <a href="">save the video</a> and 
@@ -275,9 +277,6 @@
             <track id="streamer-track" type="text/x-srt" kind="subtitles" src="" srclang="" label="subtitles" default></track>
             <!--// add placeholder? //-->
           </video>
-          <center>
-            <a href="#" class="btn btn-primary btn-minion" id="streamer-link" target="_blank">Open in browser</a>
-          </center>
         </div>
         
         <!--// SECTION:ABOUT //-->

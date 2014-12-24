@@ -228,19 +228,24 @@ function responseHandler(request, response) {
 			App.Tab.current = response.result.tab;
 			break;
 		case 'getplaying':
-				App.Player.isPlaying = response.result.playing;
-				if (response.result.quality != false) {
-					$(".streamer-title").text(response.result.title + " - " + response.result.quality);
-					App.Player.isTrailer = false;
-				}
-				else {
-					App.Player.isTrailer = true;
-				}
-				break;
+			console.debug("[DEBUG] getplaying:");
+			console.debug(response);
+			App.Player.isPlaying = response.result.playing;
+			if (response.result.quality != false) {
+				$(".streamer-title").text(response.result.title + " - " + response.result.quality);
+				App.Player.isTrailer = false;
+			}
+			else {
+				App.Player.isTrailer = true;
+			}
+			break;
 		case 'getselection':
+			console.debug("[DEBUG] getselection:");
+			console.debug(response);
 			App.Subtitles = {};
 			if (App.Client.view === "player") {
-
+				// Will be empty for tv show episodes until PR #364 gets merged.
+				App.Subtitles = response.result.subtitle;
 			}
 			else if (App.Client.view === "movie-detail") {
 				if (response.result.image === "images/posterholder.png") {
@@ -423,12 +428,15 @@ function responseHandler(request, response) {
 			if (App.Player.playHere == "true" || App.Player.playHere == null) {
 				$("#streamer-video").attr("src", response.result.streamUrl);
 				$("#streamer-source").attr("src", response.result.streamUrl);
-				if (App.Subtitles[App.Player.selectedSubtitles] != undefined) {
+				if (App.Player.selectedSubtitles != "" && App.Subtitles[App.Player.selectedSubtitles] != undefined) {
 					console.debug("[DEBUG] Selected subtitles: " + App.Subtitles[App.Player.selectedSubtitles]);
 					$("#streamer-track").attr("srclang", App.Player.selectedSubtitles);
 					$("#streamer-track").attr("src", App.Settings.ZipExtractor.url + "?username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&url=" + App.Subtitles[App.Player.selectedSubtitles]);
+					$("#streamer-link").attr("href", "streamer.html?extractor=" + App.Settings.ZipExtractor.url + "&username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&lang=" + App.Player.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + App.Subtitles[App.Player.selectedSubtitles]);
 				}
-				$("#streamer-link").attr("href", "streamer.html?extractor=" + App.Settings.ZipExtractor.url + "&username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&lang=" + App.Player.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + App.Subtitles[App.Player.selectedSubtitles]);
+				else {
+					$("#streamer-link").attr("href", "streamer.html?extractor=" + App.Settings.ZipExtractor.url + "&username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&lang=" + App.Player.selectedSubtitles + "&src=" + response.result.streamUrl + "");
+				}
 				$("#streamer-link").on("click", function() {
 					$("#streamer-video").get(0).pause();
 				});
@@ -444,6 +452,8 @@ function responseHandler(request, response) {
 			App.Player.currentVolume = response.result.volume;
 			break;
 		case 'getsubtitles':
+			console.debug("[DEBUG] getsubtitles: ");
+			console.debug(response);
 			if (App.Client.view === "movie-detail" && App.Player.isTrailer !== false) {
 				$(".movie-detail-select-subtitles").children().remove();
 				$(".movie-detail-select-subtitles").append('<option value="none">Select subtitles</option>');
@@ -451,17 +461,23 @@ function responseHandler(request, response) {
 					$(".movie-detail-select-subtitles").append('<option value="' + value + '">' + App.SubtitleLanguages[value] + '</option>');
 				});
 			}
-			else if (App.Client.view === "player") {
-				console.debug(response);
-				if (typeof response.result.episode !== "undefined") {
-					// tv show epsiode
-					// waiting for my PR to get merged.
+			else if (App.Client.view == "player") {
+				if (App.Player.playHere == false) {
+					// subtitles for remote. TODO!
+				}
+				else {
+					// subtitles for streamer.
+					$(".streamer-select-subtitles").children().remove();
+					$(".streamer-select-subtitles").append('<option value="none">Select subtitles</option>');
+					$.each(response.result.subtitles, function(index, value) {
+						$(".streamer-select-subtitles").append('<option value="' + value + '">' + App.SubtitleLanguages[value] + '</option>');
+					});
 				}
 			}
 			break;
 		case 'getplayers':
 			if (typeof response.result == "undefined" || typeof response.result.players == "undefined") {
-				console.error("[ERROR] Got empty list of players.");
+				console.warn("[WARNING] Got empty list of players.");
 				noPlayers = true;
 			}
 			else {
@@ -688,9 +704,11 @@ function viewstackHandler(response) {
 				break;
 			case 'player':
 				popcorntimeAPI("getplaying");
-				popcorntimeAPI("getsubtitles");
+				App.Client.view = currentview;
 				App.Player.playHere = sessionStorage.getItem("playHere");
 				console.debug("[DEBUG] App.Player.playHere = " + App.Player.playHere + ".");
+				popcorntimeAPI("getselection");
+				popcorntimeAPI("getsubtitles");
 				popcorntimeAPI("getstreamurl");
 				if (App.Player.playHere == "true" || App.Player.playHere == null && App.Player.isTrailer == false) {
 					if (App.Player.isPlaying) {
@@ -937,6 +955,18 @@ function registerListeners() {
 	});
 	$(".btn-watch").on("click", function() {
 		popcorntimeAPI("enter");
+	});
+	// Streamer handlers.
+	$(".streamer-select-subtitles").on("change", function() {
+		App.Player.selectedSubtitles = this.value;
+		popcorntimeAPI("setsubtitle", [this.value]);
+		$(".streamer-select-subtitles > option > span").remove();
+		$('option[value="' + this.value + '"]').prepend("<span>Selected: </span>");
+		$("#streamer-track").attr("srclang", this.value);
+		$("#streamer-track").attr("src", "");
+		$("#streamer-track").attr("src", App.Settings.ZipExtractor.url + "?username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&url=" + App.Subtitles[App.Player.selectedSubtitles]);
+		$("#streamer-video").attr("src", $("#streamer-video").attr("src"));
+		$("#streamer-source").attr("src", $("#streamer-source").attr("src"));
 	});
 	// TV Show button handlers.
 	$(".btn-watch-episode").on("click", function() {
