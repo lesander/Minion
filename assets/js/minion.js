@@ -972,6 +972,7 @@ function registerListeners() {
 		$("#streamer-track").attr("src", App.Settings.ZipExtractor.url + "?username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&url=" + App.Subtitles[App.Player.selectedSubtitles]);
 		$("#streamer-video").attr("src", $("#streamer-video").attr("src"));
 		$("#streamer-source").attr("src", $("#streamer-source").attr("src"));
+		$("#streamer-link").attr("href", "streamer.html?extractor=" + App.Settings.ZipExtractor.url + "&username=" + App.Settings.ZipExtractor.username + "&password=" + App.Settings.ZipExtractor.password + "&lang=" + App.Player.selectedSubtitles + "&src=" + response.result.streamUrl + "&subs=" + App.Subtitles[App.Player.selectedSubtitles]);
 	});
 	// TV Show button handlers.
 	$(".btn-watch-episode").on("click", function() {
