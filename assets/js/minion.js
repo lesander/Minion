@@ -462,8 +462,13 @@ function responseHandler(request, response) {
 				});
 			}
 			else if (App.Client.view == "player") {
-				if (App.Player.playHere == false) {
-					// subtitles for remote. TODO!
+				if (App.Player.playHere == "false") {
+					// subtitles for remote.
+					$(".player-select-subtitles").children().remove();
+					$(".player-select-subtitles").append('<option value="none">Select subtitles</option>');
+					$.each(response.result.subtitles, function(index, value) {
+						$(".player-select-subtitles").append('<option value="' + value + '">' + App.SubtitleLanguages[value] + '</option>');
+					});
 				}
 				else {
 					// subtitles for streamer.
@@ -1021,6 +1026,12 @@ function registerListeners() {
 	});
 	$(".btn-player-right").on("click", function() {
 		popcorntimeAPI("seek", [10]);
+	});
+	$(".player-select-subtitles").on("change", function() {
+		popcorntimeAPI("setsubtitle", [this.value]);
+		$(".player-select-subtitles > option > span").remove();
+		$('option[value="' + this.value + '"]').prepend("<span>Selected: </span>");
+		App.Player.selectedSubtitles = this.value;
 	});
 	// Save settings handler.
 	$(".btn-save").on("click", function() {

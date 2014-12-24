@@ -461,7 +461,8 @@ noscript > div {
   color: #2d72d9;
 }
 .movie-detail-select-subtitles,
-.streamer-select-subtitles {
+.streamer-select-subtitles,
+.player-select-subtitles {
   width: auto;
   /*background: #1f375f;*/
   background: none;
@@ -471,7 +472,8 @@ noscript > div {
   -webkit-appearance: none;
 }
 .movie-detail-select-subtitles:focus,
-.streamer-select-subtitles:focus {
+.streamer-select-subtitles:focus,
+.player-select-subtitles:focus {
   border-color: transparent;
   outline: 0;
   -webkit-box-shadow: none;
@@ -666,6 +668,12 @@ noscript > div {
 }
 .btn-player-down {
   margin-top: 155px;
+}
+.player-select-subtitles {
+  margin-top: 40px;
+  background: #1f375f;
+  border-color: #1f375f;
+  -webkit-appearance: menulist-button;
 }
 .streamer-select-subtitles {
   margin-left: 20px;
