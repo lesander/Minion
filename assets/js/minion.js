@@ -25,6 +25,7 @@ var App = {
 		version: "0.1.0.pre",
 		prefix: "Minion_LS1_",
 		interval: 1000,
+		sid: 0,
 		ZipExtractor: {
 			url: "http://178.62.212.184/zip.php",
 			username: "demo",
@@ -99,7 +100,7 @@ $(".version").text("Version " + App.Settings.version);
  */
 function popcorntimeConnect(address, port, username, password) {
 	var request = {
-		"id": Math.floor(Math.random() * 100000),
+		"id": App.Settings.sid + "000" + Math.floor(Math.random() * 100000),
 		"jsonrpc": "2.0",
 		"caller": "PTR-Minion-" + App.Settings.version,
 		"callerLocation": window.location.href,
@@ -173,7 +174,7 @@ function popcorntimeAPI(method, parameters) {
 		parameters = [];
 	}
 	var request = {
-		"id": Math.floor(Math.random() * 100000),
+		"id": App.Settings.sid + "000" + Math.floor(Math.random() * 100000),
 		"jsonrpc": "2.0",
 		"caller": "PTR-Minion-" + App.Settings.version,
 		"callerLocation": window.location.href,
@@ -1142,6 +1143,7 @@ $.getJSON("assets/js/langcodes.json", function(json) {
 
 /*! On document ready, get started. */
 $(document).ready(function() {
+	App.Settings.sid = Math.floor(Math.random() * 1000000);
 	console.log('  __  __ _       _             \n |  \\/  (_)     (_)            \n | \\  / |_ _ __  _  ___  _ __  \n | |\\/| | | \'_ \\| |/ _ \\| \'_ \\ \n | |  | | | | | | | (_) | | | |\n |_|  |_|_|_| |_|_|\\___/|_| |_|\n                               ');
 	console.log(" Minion version " + App.Settings.version + ".");
 	console.log(" Developed by the PTR Team.");
@@ -1149,7 +1151,7 @@ $(document).ready(function() {
 	console.log(" Released under the GNU GPL V3 License.");
 	console.log(" http://git.io/minion");
 	console.log("");
-	console.info("[INFO] Document is ready, starting Minion session.");
+	console.info("[INFO] Document is ready, starting Minion session (SID " + App.Settings.sid + ").");
 	console.info("[INFO] Minion version " + App.Settings.version + ".");
 	$(".nav-title").text("Minion v" + App.Settings.version);
 	if (App.Settings.Debug.enabled) {
