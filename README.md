@@ -6,20 +6,20 @@ Welcome to the **Minion** project! Control your Popcorn Time client on your phon
 
 This readme is the main source of documentation for everyone working with (or contributing to) the Minion project.
 
-If you think that you found a bug, encountered a problem or have an idea that could help out the project, please search for your issue or feature in [the issue tracker](https://github.com/ptrteam/minion/issues) before posting. Once you are sure that no-one posted your issue before, read [the contributing guidelines](CONTRIBUTING.md) and then [create a new issue](https://github.com/ptrteam/minion/issues/new) or [pull request](https://github.com/ptrteam/minion/compare).
+If you think that you found a bug, encountered a problem or have an idea that could help out the project, please search for your issue or feature in [the issue tracker](https://github.com/lesander/minion/issues) before posting. Once you are sure that no-one posted your issue before, read [the contributing guidelines](CONTRIBUTING.md) and then [create a new issue](https://github.com/lesander/minion/issues/new) or [pull request](https://github.com/lesander/minion/compare).
 
 ## Quick start
 
 <img src="http://lesander.nl/i/minion.gif" alt="Minion on a simulated iPhone 5" title="Minion on a simulated iPhone 5" align="right" height="320" hspace="1">
 
 To get started with Minion, choose one of the options below.
-- [Use the live version](http://live.popcorntimeremote.com).
-- [Download the latest release](https://github.com/ptrteam/minion/releases/latest).
-- Clone the repository: `git clone https://github.com/ptrteam/minion.git`.
+- [Use the live version](http://lesander.me/Minion/web).
+- [Download the latest release](https://github.com/lesander/minion/releases/latest).
+- Clone the repository: `git clone https://github.com/lesander/minion.git`.
 
 Minion will not work correctly in `file://` mode, instead use a (local) webserver (Apache, Nginx, Jekyll).
 
-When you run into a problem, please check the issue tracker if someone has had the same problem. If your problem has not been addressed yet, [please open a new issue](https://github.com/ptrteam/minion/issues/new).
+When you run into a problem, please check the issue tracker if someone has had the same problem. If your problem has not been addressed yet, [please open a new issue](https://github.com/lesander/minion/issues/new).
 
 ## How to use
 
@@ -28,10 +28,9 @@ To start using Minion, you'll of course need [Popcorn Time](https://popcorntime.
 ## Community
 
 Keep track of news and development about Minion:
-- Follow [@popcorntimerm on Twitter](https://twitter.com/popcorntimerm).
+- Follow [@lesander_ on Twitter](https://twitter.com/lesander_).
 - Star [project Minion on GitHub](http://git.io/minion).
-- Follow [PTR Team on GitHub](https://github.com/ptrteam).
-- Contact us through [hello@popcorntimeremote.com](mailto:hello@popcorntimeremote.com).
+- Follow [lesander on GitHub](https://github.com/lesander).
 
 ## Versioning
 
