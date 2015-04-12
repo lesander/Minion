@@ -35,7 +35,7 @@ a {
   border-color: rgba(255, 255, 255, 0.3); }
 
 .page-header > img {
-  border-radius: 6px;
+  border-radius: 16px;
 }
 
 @media screen and (min-width: 64em) {
