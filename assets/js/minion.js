@@ -27,9 +27,9 @@ var App = {
 		interval: 1000,
 		sid: 0,
 		ZipExtractor: {
-			url: "http://178.62.212.184/zip.php",
-			username: "demo",
-			password: "demo"
+			url: "",
+			username: "",
+			password: ""
 		},
 		Debug: {
 			enabled: true,
