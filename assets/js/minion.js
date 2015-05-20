@@ -68,8 +68,8 @@ var App = {
 		old: ""
 	},
 	SupportedVersions: {
-		0: "0.3.7-1", // release
-		1: "0.3.7", // beta
+		0: "0.3.7-2", // release
+		1: "0.3.8", // beta
 		2: "0.4.0" // dev
 	},
 	SubtitleLanguages: {},
