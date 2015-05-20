@@ -1,6 +1,6 @@
 # Minion
 
-<img src="http://lesander.nl/i/1418995626.jpg" alt="Minion" title="The Minion Logo" align="right" hspace="15">
+<img src="http://i.imgur.com/2w1PspX.jpg" alt="Minion" title="The Minion Logo" align="right" hspace="15">
 
 Welcome to the **Minion** project! Control your Popcorn Time client on your phone or tablet with ease, using Minion.
 
