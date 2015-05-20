@@ -69,7 +69,7 @@ Adhering to the following process is the best way to get your work included in t
    ```bash
    git clone https://github.com/<your-username>/minion.git
    cd minion
-   git remote add upstream https://github.com/ptrteam/minion.git
+   git remote add upstream https://github.com/lesander/minion.git
    ```
 
 2. If you cloned a while ago, get the latest changes from upstream:
