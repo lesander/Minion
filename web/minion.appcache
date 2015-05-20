@@ -1,0 +1,62 @@
+CACHE MANIFEST
+# Version 1.0
+
+CACHE:
+# Files to cache for offline use (no wildcards allowed).
+assets/js/minion.js
+assets/js/bootstrap.min.js
+assets/js/jquery.min.js
+assets/js/html5shiv.min.js
+assets/js/respond.min.js
+assets/js/langcodes.json
+assets/js/jquery.min.map
+assets/css/minion.css
+assets/css/bootstrap.min.css
+assets/css/font-awesome.min.css
+assets/fonts/FontAwesome.otf
+assets/fonts/fontawesome-webfont.eot
+assets/fonts/fontawesome-webfont.svg
+assets/fonts/fontawesome-webfont.ttf
+assets/fonts/fontawesome-webfont.woff
+assets/img/imdb.png
+assets/img/posterholder.png
+assets/img/player-airplay.png
+assets/img/player-airplay-xbmc.png
+assets/img/player-chromecast.png
+assets/img/player-external.png
+assets/img/player-fleex.png
+assets/img/player-local.png
+assets/img/player-mpc-hc.png
+assets/img/player-mplayer.png
+assets/img/player-mpv.png
+assets/img/player-smplayer.png
+assets/img/player-VLC.png
+assets/img/icons/icon57.png
+assets/img/icons/icon72.png
+assets/img/icons/icon76.png
+assets/img/icons/icon114.png
+assets/img/icons/icon120.png
+assets/img/icons/icon144.png
+assets/img/icons/icon152.png
+assets/img/icons/icon192.png
+assets/img/icons/tiny.png
+assets/img/icons/square.png
+assets/img/icons/wide.png
+assets/img/icons/large.png
+
+FALLBACK:
+# Files missing will be replaced with x.
+# Webfont cache fix:
+assets/fonts/FontAwesome.otf assets/fonts/FontAwesome.otf
+assets/fonts/fontawesome-webfont.eot assets/fonts/fontawesome-webfont.eot
+assets/fonts/fontawesome-webfont.svg assets/fonts/fontawesome-webfont.svg
+assets/fonts/fontawesome-webfont.ttf assets/fonts/fontawesome-webfont.ttf
+assets/fonts/fontawesome-webfont.woff assets/fonts/fontawesome-webfont.woff
+
+NETWORK:
+# Files that we should try to load from the webserver (wildcard doesn't always work).
+*
+assets/js/minion.js
+assets/css/minion.css
+index.html
+streamer.html

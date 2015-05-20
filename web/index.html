@@ -1,1 +1,370 @@
-
+<!DOCTYPE html>
+  <!--//
+    Minion v0.1.0.pre
+    Developed by the PTR Team
+    Copyright 2014, the PTR Team
+    Released under the GNU GPL V3 License
+    http://git.io/minion
+  //-->
+  <html lang="en" manifest="minion.appcache">
+    <head>
+      <meta charset="utf-8">
+      <title>Minion</title>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+      
+      <!--// Webapp (Apple) tags //-->
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="apple-mobile-web-app-status-bar-style" content="black">
+      <meta name="apple-mobile-web-app-title" content="Minion">
+      <link rel="apple-touch-icon-precomposed" href="assets/img/icons/icon152.png" sizes="152x152">
+      <link rel="apple-touch-icon-precomposed" href="assets/img/icons/icon144.png" sizes="144x144">
+      <link rel="apple-touch-icon-precomposed" href="assets/img/icons/icon120.png" sizes="120x120">
+      <link rel="apple-touch-icon-precomposed" href="assets/img/icons/icon114.png" sizes="114x114">
+      <link rel="apple-touch-icon-precomposed" href="assets/img/icons/icon76.png" sizes="76x76">
+      <link rel="apple-touch-icon-precomposed" href="assets/img/icons/icon72.png" sizes="72x72">
+      <link rel="apple-touch-icon-precomposed" href="assets/img/icons/icon57.png" sizes="57x57">
+      <link rel="apple-touch-icon-precomposed" href="assets/img/icons/icon120.png">
+      
+      <!--// Webapp (Android) tags //-->
+      <meta name="mobile-web-app-capable" content="yes">
+      <link rel="icon" href="assets/img/icons/icon192.png" sizes="192x192">
+      <!--//<link rel="icon" href="assets/img/icons/icon128.png" sizes="128x128">//-->
+      
+      <!--// SEO tags //-->
+      <meta name="author" content="The Popcorn Time Remote Team">
+      <meta name="description" content="$desc">
+      <meta name="keywords" content="Use your Popcorn Time client on your phone or tablet with Minion.">
+      <meta name="language" content="english">
+      
+      <!--// Favicon tags //-->
+      <link rel="icon" href="assets/img/icons/icon152.png">
+      <link rel="shortcut" href="assets/img/icons/icon152.png">
+      
+      <!--// Twitter Card tags //-->
+      <meta name="twitter:card" content="summary">
+      <meta name="twitter:url" content="http://git.io/minion">
+      <meta name="twitter:title" content="Minion">
+      <meta name="twitter:description" content="Use your Popcorn Time client on your phone or tablet with Minion.">
+      <meta name="twitter:image" content="assets/img/icons/wide.png">
+      
+      <!--// Open Graph tags //-->
+      <meta property="og:title" content="Minion">
+      <meta property="og:image" content="assets/img/icons/wide.png">
+      <meta property="og:url" content="http://git.io/minion">
+      <meta property="og:description" content="Use your Popcorn Time client on your phone or tablet with Minion.">
+      
+      <!--// Windows 8.1 Tile tags //-->
+      <meta name="application-name" content="Minion">
+      <meta name="msapplication-TileColor" content="#17181b">
+      <meta name="msapplication-square70x70logo" content="assets/img/icons/tiny.png">
+      <meta name="msapplication-square150x150logo" content="assets/img/icons/square.png">
+      <meta name="msapplication-wide310x150logo" content="assets/img/icons/wide.png">
+      <meta name="msapplication-square310x310logo" content="assets/img/icons/large.png">
+      
+      <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+      <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+      <link href="assets/css/minion.css" rel="stylesheet">
+      <!--[if lt IE 9]>
+        <script src="assets/js/html5shiv.min.js"></script>
+        <script src="assets/js/respond.min.js"></script>
+      <![endif]-->
+    </head>
+    <body>
+      
+      <!--// SECTION:NOSCRIPT //-->
+      <noscript>
+        <div><img class="img-rounded" src="assets/img/icons/icon120.png"></div>
+        <h2>Enable Javascript</h2>
+        <p>
+          Hey, you! Minion needs Javascript to be enabled in your browser.<br/>
+          Please enable Javascript and then come back here.
+        </p>
+      </noscript>
+      
+      <!--// SECTION:MENU //-->
+      <div id="menu" class="hidden">
+        <div class="nav-title">Minion</div>
+        <ul class="nav nav-hor pull-left">
+          <li class="btn-movies">Movies</li>
+          <li class="btn-shows">TV Series</li>
+          <li class="btn-anime">Anime</li>
+        </ul>
+        <ul class="nav nav-hor nav-icons pull-right">
+          <li class="btn-inbox"><i class="btn-inbox-icon fa fa-inbox"></i></li> 
+          <li class="btn-favourites"><i class="btn-favourites-icon fa fa-heart"></i></li> 
+          <li class="btn-settings"><i class="btn-settings-icon fa fa-cog"></i></li>
+        </ul>
+      </div>
+      
+      <div id="contents">
+        
+        <!--// SECTION:DEFAULT //-->
+        <div id="default" class="section hidden">
+          <img class="img-rounded" src="assets/img/icons/icon120.png">
+          <h1>Minion</h1>
+          <div class="version"></div>
+        </div>
+        
+        <!--// SECTION:MAIN-BROWSER //-->
+        <div id="main-browser" class="section hidden">
+          <div class="search hidden">
+            <form>
+              <div class="input-group">
+                <input class="form-control search-term" type="text" placeholder="Search...">
+                <span class="input-group-addon">
+                  <a class="search-enter" href="#"><i class="fa fa-lg fa-search"></i></a>
+                  <a class="search-remove hidden" href="#"><i class="fa fa-lg fa-remove"></i></a>
+                </span>
+              </div>
+            </form>
+          </div>
+          <ul class="list"></ul>
+        </div>
+        
+        <!--// SECTION:SHOWS-CONTAINER //-->
+        <div id="shows-container" class="section hidden">
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          <div class="row show-detail-container">
+            <div class="col-xs-6">
+              <img class="show-detail-poster" src="">
+            </div>
+            <div class="col-xs-12 show-detail">
+              <div class="show-detail-title">Title</div>
+              <span class="show-detail-year">Year</span> &#149;
+              <span class="show-detail-rating">Rating</span> &#149;
+              <span class="show-detail-genre"></span> &#149;
+              <!--//<span class="show-detail-runtime"></span> &#149;//-->
+              <span class="show-detail-seasons"></span> &#149;
+              <span class="show-detail-imdb"></span>
+              <div class="show-detail-synopsis"></div>
+            </div>
+            <div class="col-xs-12 show-detail-actions">
+              <center>
+                <select class="form-control episodes-list"></select>
+                <div class="btn-show-detail-favourite"><i class="fa fa-heart none"></i> <span>Bookmark</span></div>
+              </center>
+            </div>
+            <div class="col-xs-12 episode-detail">
+              <div class="episode-detail-title"></div>
+              <span class="episode-detail-season"></span>
+              <span class="episode-detail-episode"></span>
+              <div class="episode-detail-synopsis"></div>
+              <br/>
+              <div class="btn-group btn-watch-episode-group dropup">
+                <button type="button" class="btn btn-default btn-watch-episode">Watch Now</button>
+                <button type="button" class="btn btn-default btn-players-episode-caret dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret caret-icon"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu select-players-episode" role="dropdown-menu"></ul>
+              </div>
+              <button type="button" class="btn btn-default btn-minion btn-episode-detail-quality">.</button> 
+              <a class="btn btn-link btn-episode-detail-watched" href="#"><i class="fa fa-eye grey"></i> <span>Mark watched</span></a>
+            </div>
+          </div>
+        </div>
+        
+        <!--// SECTION:MOVIE-DETAIL //-->
+        <div id="movie-detail" class="section hidden">
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          <div class="row movie-detail-container">
+            <div class="col-xs-6">
+              <img class="movie-detail-poster" src="">
+            </div>
+            <div class="col-xs-12 movie-detail-metadata">
+              <div class="movie-detail-title">Title</div>
+              <span class="movie-detail-year">Year</span> &#149; 
+              <span class="movie-detail-rating">Rating</span> &#149; 
+              <span class="movie-detail-genre"></span> &#149; 
+              <span class="movie-detail-runtime"></span> &#149; 
+              <span class="movie-detail-imdb"></span>
+              <div class="movie-detail-synopsis minimised"></div>
+              <div id="expand" class="movie-detail-synopsis-more"><i><a href="#expand" class="btn btn-link expand">Read more</a></i></div>
+            </div>
+            <div id="movdet-actions" class="col-xs-12 movie-detail-actions">
+              <div class="row">
+                <div class="col-xs-6">
+                  <a class="btn-movie-detail-favourite"><i class="fa fa-heart none"></i> <span>Bookmark</span></a>
+                </div>
+                <div class="col-xs-6">
+                  <select class="movie-detail-select-subtitles form-control"><option>Loading subtitles..</option></select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-6">
+                  <a class="btn-movie-detail-watched"><i class="fa fa-eye none"></i> <span>Mark watched</span></a>
+                </div>
+              </div>
+              <br/>
+              <div class="btn-group btn-watch-group dropup">
+                <button type="button" class="btn btn-default btn-watch">Watch Now</button>
+                <button type="button" class="btn btn-default btn-players-caret dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret caret-icon"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu select-players" role="dropdown-menu"></ul>
+              </div>
+              <button type="button" class="btn btn-default btn-trailer">Watch Trailer</button>
+              <button type="button" class="btn btn-default btn-minion btn-movie-detail-quality">.</button>
+            </div>
+          </div>
+        </div>
+        
+        <!--// SECTION:DOWNLOADING //-->
+        <div id="downloading" class="section hidden">
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          <img class="img-rounded" src="assets/img/icons/icon120.png">
+          <h1>Please wait</h1>
+          <div class="sub">Your Popcorn Time client is preparing the selected item.</div>
+        </div>
+        
+        <!--// SECTION:LOSTCONNECTION //-->
+        <div id="lostconnection" class="section hidden">
+          <img class="img-rounded" src="assets/img/icons/icon120.png">
+          <h1>Whoops!</h1>
+          <div class="sub">
+            Minion lost connection with your Popcorn Time client.
+          </div>
+        </div>
+        
+        <!--// SECTION:LOADING //-->
+        <div id="loading" class="section hidden">
+          <img class="img-rounded" src="assets/img/icons/icon120.png">
+          <h1>Waiting...</h1>
+          <div class="sub">Waiting for Popcorn Time client to finish loading.</div>
+        </div>
+        
+        <!--// SECTION:PLAYER //-->
+        <div id="player" class="section hidden">
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          <div class="player-title"></div>
+          <div class="player-arrows">
+            <center>
+              <div class="btn-player-circle">
+                <div class=""><i class="btn-player-pause fa fa-pause"></i></div>
+                <div class="btn-player-up">
+                  <i class="fa fa-volume-up"></i>
+                </div>
+                <div class="btn-player-left pull-left">
+                  <i class="fa fa-backward"></i>
+                </div>
+                <div class="btn-player-right pull-right">
+                  <i class="fa fa-forward"></i>
+                </div>
+                <div class="btn-player-down">
+                  <i class="fa fa-volume-down"></i>
+                </div>
+              </div>
+            </center>
+          </div>
+          <center><select class="player-select-subtitles form-control"></select></center>
+          <!--//<div class="btn-player-mute"><i class="fa fa-volume-off"></i> Toggle Mute</div>//-->
+          <!--// only if in popcorntime app <div class="btn-player-fullscreen"><i class="btn-fullscreen-child fa fa-expand"></i> Toggle Fullscreen</div>//-->
+          <!--//<div class="btn-player-stream">Stream here <img class="player-icon" src="assets/img/player-external.png"></div>//-->
+        </div>
+        
+        <!--// SECTION:STREAMER //-->
+        <div id="streamer" class="section hidden">
+          <div class="btn-back btn-stop-stream pull-right"><i class="fa fa-close"></i></div>
+          <div class="streamer-title pull-left"></div>
+          <select class="streamer-select-subtitles form-control pull-left"></select>
+          <a href="#" class="btn btn-link pull-left" id="streamer-link" target="_blank">Open in browser</a>
+          <video id="streamer-video" src="" autoplay="false" controls crossorigin>
+            It seems that your browser doesn't support HTML5 video,
+            but don't worry, you can <a href="">save the video</a> and 
+            watch it with your favourite video player!
+            <source id="streamer-source" src="" type="video/mp4">
+            <track id="streamer-track" type="text/x-srt" kind="subtitles" src="" srclang="" label="subtitles" default></track>
+            <!--// add placeholder? //-->
+          </video>
+        </div>
+        
+        <!--// SECTION:ABOUT //-->
+        <div id="about" class="section hidden">
+          <div class="btn-back pull-right"><i class="fa fa-close"></i></div>
+          <div class="about">
+            <h3>About</h3>
+            <p>
+              Minion is developed by the Popcorn Time Remote (PTR) Team.<br/>Copyright &copy; 2014 the PTR Team.<br/>
+              Licensed under the <a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GNU GPL V3</a> license.<br/>
+            </p>
+            <p>
+              Contributors: Mick de Graaf, Sander Laarhoven and Jon Alexopoulos.
+            </p>
+            <p>
+              Popcorn Time Remote (PTR) and Minion are not affiliated with <a href="https://popcorntime.io">Popcorn Time</a> itself. Please report problems with Popcorn Time to <a href="https://git.popcorntime.io/jira" target="_blank">their issue tracker</a>.
+            </p>
+            <p>
+              Minion logo created by <a href="http://joshiankit.com">Ankit Joshi</a>, &copy; 2013-2014. All rights reserved.
+            </p>
+            <p>
+              We've done everything we can to make your experience with Minion as pleasant as possible. If you've got a problem, suggestion or idea please let us know.
+            </p>
+          </div>
+        </div>
+        
+        <!--// SECTION:SETTINGS //-->
+        <div id="settings" class="section hidden">
+          <div class="btn-settings-close pull-right"><i class="fa fa-close"></i></div>
+          <div class="welcome hidden">
+            <center><img class="img-rounded" src="assets/img/icons/icon120.png"></center>
+            <h2>Welcome to Minion!</h2>
+            <p>
+              Minion is an application that connects with your Popcorn Time client running on your pc.
+              With Minion, you can control and stream Popcorn Time's videos right to any of your devices!
+            </p>
+            <p>
+              To get started, fill in the connection details of your Popcorn Time client.
+              For information and help, see <a href="http://git.io/minion">the readme</a> of Minion.
+            </p>
+          </div>
+          <div class="settings-form">
+            <h3>Settings</h3>
+            <form>
+              <h4>Connection</h4>
+              <input class="form-control settings-address" type="text" value="" placeholder="address">
+              <input class="form-control settings-port" type="number" value="" placeholder="port">
+              <input class="form-control settings-username" type="text" value="" placeholder="username">
+              <input class="form-control settings-password" type="password" value="" placeholder="password">
+              <div class="settings-ui">
+                <h4>User Interface</h4>
+                <div class="settings-item">
+                  <label>Language:</label>
+                  <select class="settings-language">
+                    <option value="">English</option>
+                  </select>
+                </div>
+                <div class="settings-item">
+                  <label>Start Screen:</label>
+                  <select class="settings-startscreen">
+                    <option value="">Movies</option>
+                    <option value="shows">TV Series</option>
+                    <option value="anime">Anime</option>
+                    <option value="favourites">Favourites</option>
+                    <option value="watchlist">Watchlist</option>
+                  </select>
+                </div>
+                <div class="settings-item">
+                  <label>Watched Items:</label>
+                  <select class="settings-watcheditems">
+                    <option value="">Fade</option>
+                    <option value="hide">Hide</option>
+                    <option value="none">Show</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+            <div class="settings-actions">
+              <a class="btn btn-primary btn-minion btn-reload" href="#" onclick="location.reload();">Restart App</a>
+              <a class="btn btn-primary btn-minion btn-reset" href="#">Reset App</a>
+              <a class="btn btn-primary btn-minion btn-save pull-right" href="#">Save</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="assets/js/jquery.min.js"></script>
+      <script src="assets/js/bootstrap.min.js"></script>
+      <script src="assets/js/minion.min.js"></script>
+    </body>
+  </html>
